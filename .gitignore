@@ -1,0 +1,5 @@
+/classes/
+/target/
+/build/
+/.gradle/
+/.idea/
