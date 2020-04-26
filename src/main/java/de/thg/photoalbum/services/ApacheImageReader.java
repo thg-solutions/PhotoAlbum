@@ -20,7 +20,7 @@ public class ApacheImageReader implements ImageMetadataReader {
     private static final Logger LOGGER = LogManager.getLogger(ApacheImageReader.class);
 
     @Override
-    public Image readImageMetadata(File file) throws IOException {
+    public Image readImageMetadata(File file) {
         Image image = null;
         try {
             ImageMetadata metadata = Imaging.getMetadata(file);
@@ -37,7 +37,7 @@ public class ApacheImageReader implements ImageMetadataReader {
                 }
                 image.setFilename(file.getName());
             }
-        } catch (ImageReadException e) {
+        } catch (ImageReadException | IOException e) {
             LOGGER.error("error reading image metadata");
         }
         return image;

@@ -51,4 +51,15 @@ public class PhotoAlbumController {
         imageRepository.saveAll(imageList);
         return imageList;
     }
+
+    @PostMapping("analyse")
+    public ResponseEntity<Image> analyseImage(@RequestParam("filename") String fileToAnalyse) {
+        Optional<Image> result = service.analyseImage(fileToAnalyse);
+        System.out.println(fileToAnalyse);
+        if(result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

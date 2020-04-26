@@ -149,5 +149,8 @@ public class PhotoAlbumService {
         return result;
     }
 
+    public Optional<Image> analyseImage(String filename) {
+        return Optional.ofNullable(imageMetadataReader.readImageMetadata(new File(filename)));
+    }
 
 }
