@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,7 +46,7 @@ public class PhotoAlbumService {
             return new ArrayList<>();
         }
         if (sources == null || sources.isEmpty()) {
-            LOGGER.info("Source directory not set");
+            LOGGER.info("Source directory not set or empty");
         }
 
         File targetDir = new File(target);
@@ -90,10 +89,10 @@ public class PhotoAlbumService {
         return fileList.stream().filter(file -> file.isFile() && file.getName().endsWith("JPG")).collect(Collectors.toList());
     }
 
-    Map<Image, File> createFileMap(List<File> fileList) throws IOException {
+    Map<Image, File> createFileMap(List<File> fileList) throws FileNotFoundException {
         Map<Image, File> fileMap = new TreeMap<>();
         for (File file : fileList) {
-            Image image = imageMetadataReader.readImageMetadata(file);
+            Image image = imageMetadataReader.readImageMetadata(new FileInputStream(file), file.getName());
             if (image != null) {
                 if (fileMap.containsKey(image)) {
                     LOGGER.debug("duplicate timestamp: " + file + " - " + fileMap.get(image));
@@ -149,8 +148,8 @@ public class PhotoAlbumService {
         return result;
     }
 
-    public Optional<Image> analyseImage(String filename) {
-        return Optional.ofNullable(imageMetadataReader.readImageMetadata(new File(filename)));
+    public Optional<Image> analyseImage(InputStream inputStream, String originalName) {
+        return Optional.ofNullable(imageMetadataReader.readImageMetadata(inputStream, originalName));
     }
 
 }

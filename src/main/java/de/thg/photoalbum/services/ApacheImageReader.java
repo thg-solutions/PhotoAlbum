@@ -11,8 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Component("apache-imaging")
 public class ApacheImageReader implements ImageMetadataReader {
@@ -20,25 +20,29 @@ public class ApacheImageReader implements ImageMetadataReader {
     private static final Logger LOGGER = LogManager.getLogger(ApacheImageReader.class);
 
     @Override
-    public Image readImageMetadata(File file) {
-        Image image = null;
+    public Image readImageMetadata(InputStream fileInputStream, String originalName) {
+        Image image = new Image();
+        image.setFilename(originalName);
         try {
-            ImageMetadata metadata = Imaging.getMetadata(file);
+            ImageMetadata metadata = Imaging.getMetadata(fileInputStream, originalName);
 
             if (metadata instanceof JpegImageMetadata) {
-                image = new Image();
                 JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
-                image.setCreationDate(jpegMetadata.findEXIFValueWithExactMatch(TiffTagConstants.TIFF_TAG_DATE_TIME)
-                        .getValue().toString());
+                try {
+                    image.setCreationDate(jpegMetadata.findEXIFValueWithExactMatch(TiffTagConstants.TIFF_TAG_DATE_TIME)
+                            .getValue().toString());
+                } catch (ImageReadException e) {
+                    e.printStackTrace();
+                }
                 if (null != jpegMetadata.getExif() && null != jpegMetadata.getExif().getGPS()) {
                     TiffImageMetadata.GPSInfo gpsInfo = jpegMetadata.getExif().getGPS();
                     image.setLongitude(gpsInfo.getLongitudeAsDegreesEast());
                     image.setLatitude(gpsInfo.getLatitudeAsDegreesNorth());
                 }
-                image.setFilename(file.getName());
             }
         } catch (ImageReadException | IOException e) {
-            LOGGER.error("error reading image metadata");
+            LOGGER.error("error handling image", e);
+            return null;
         }
         return image;
     }

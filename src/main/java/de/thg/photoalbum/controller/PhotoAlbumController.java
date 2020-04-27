@@ -9,7 +9,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,13 +56,19 @@ public class PhotoAlbumController {
     }
 
     @PostMapping("analyse")
-    public ResponseEntity<Image> analyseImage(@RequestParam("filename") String fileToAnalyse) {
-        Optional<Image> result = service.analyseImage(fileToAnalyse);
+    public ResponseEntity<Image> analyseImage(@RequestParam("file") MultipartFile fileToAnalyse) throws IOException {
+        Optional<Image> result = service.analyseImage(fileToAnalyse.getInputStream(), fileToAnalyse.getOriginalFilename());
         System.out.println(fileToAnalyse);
-        if(result.isPresent()) {
+        if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @ExceptionHandler({FileNotFoundException.class, IOException.class})
+    public ResponseEntity<?> handleFileNotFound() {
+        return ResponseEntity.notFound().build();
+    }
+
 }
