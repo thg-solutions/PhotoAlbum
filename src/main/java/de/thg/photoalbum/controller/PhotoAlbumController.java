@@ -55,6 +55,7 @@ public class PhotoAlbumController {
     }
 
     @PostMapping("analyse")
+    @CrossOrigin(origins = {"${cross.origins}"})
     public ResponseEntity<Image> analyseImage(@RequestParam("file") MultipartFile fileToAnalyse) throws IOException {
         Optional<Image> result = service.analyseImage(fileToAnalyse.getInputStream(), fileToAnalyse.getOriginalFilename());
         if (result.isPresent()) {
