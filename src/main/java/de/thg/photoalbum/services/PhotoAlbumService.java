@@ -25,7 +25,7 @@ public class PhotoAlbumService {
 
     private static final Logger LOGGER = LogManager.getLogger(PhotoAlbumService.class);
 
-    private ImageMetadataReader imageMetadataReader;
+    private final ImageMetadataReader imageMetadataReader;
 
     @Value("${photoalbum.extension}")
     private String EXTENSION;
@@ -42,7 +42,7 @@ public class PhotoAlbumService {
         String target = albumParams.getTarget();
 
         if (target == null) {
-            LOGGER.info("Target diretory not set, skipping");
+            LOGGER.info("Target directory not set, skipping");
             return new ArrayList<>();
         }
         if (sources == null || sources.isEmpty()) {

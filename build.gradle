@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
 	id "org.flywaydb.flyway" version "6.5.5"
+	id 'org.owasp.dependencycheck' version '6.3.1'
 }
 
 group = 'de.thg'
@@ -10,32 +11,38 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-	jcenter()
+	mavenCentral()
 	flatDir {
 		dirs 'lib'
 	}
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.5'
 
-	implementation 'commons-io:commons-io:2.6'
-	implementation 'org.apache.commons:commons-lang3:3.10'
-	implementation 'io.springfox:springfox-swagger2:2.9.2'
-	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-	implementation 'com.drewnoakes:metadata-extractor:2.13.0'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation 'com.drewnoakes:metadata-extractor:2.16.0'
 	implementation 'org.apache.commons:commons-imaging:1.0-alpha1'
-	implementation 'org.flywaydb:flyway-core:6.5.5'
-	runtimeOnly 'org.postgresql:postgresql:42.2.12'
-//	runtimeOnly 'com.h2database:h2:1.4.200'
+//	implementation 'org.flywaydb:flyway-core:7.14.1'
+	implementation 'org.owasp:dependency-check-gradle:6.3.1'
+	runtimeOnly 'org.postgresql:postgresql:42.2.23.jre7'
+
+//	OWASP
+	implementation group: 'org.glassfish', name: 'jakarta.el', version: '3.0.4'
+	implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.53'
+	implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.53'
+	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.5.7.Final'
+	implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.10'
+	implementation group: 'org.springframework', name: 'spring-web', version: '5.3.10'
 
 
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+	testImplementation('org.springframework.boot:spring-boot-starter-test:2.5.5') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testRuntimeOnly 'com.h2database:h2'
+	testRuntimeOnly 'com.h2database:h2:1.4.200'
 }
 
 test {
