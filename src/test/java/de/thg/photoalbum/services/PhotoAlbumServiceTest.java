@@ -22,8 +22,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author tom
@@ -82,8 +81,8 @@ public class PhotoAlbumServiceTest {
 	@Test
 	public void testCreateFileList() {
 		List<File> fileList = underTest.createFilteredFileList(params);
-		assertNotNull(fileList);
-		assertTrue("no images found", !fileList.isEmpty());
+		assertThat(fileList).isNotNull();
+		assertThat(fileList).as("no images found").isNotEmpty();
 
 		boolean filterSuccessful = true;
 		for (File thisFile : fileList) {
@@ -91,7 +90,7 @@ public class PhotoAlbumServiceTest {
 				filterSuccessful = false;
 			}
 		}
-		assertTrue("encountered error in filtering", filterSuccessful);
+		assertThat(filterSuccessful).as("encountered error in filtering").isTrue();
 	}
 
 	@Test
@@ -102,27 +101,28 @@ public class PhotoAlbumServiceTest {
 		File tempDir = targetFileMap.get(targetFileMap.keySet().iterator().next()).getTempFile().getParentFile();
 		File targetDir = targetpath.toFile();
 		underTest.copyFiles(targetFileMap, targetDir);
-		assertEquals(targetDir.listFiles().length, targetFileMap.size());
-		assertFalse(tempDir.exists());
+		assertThat(targetDir).exists();
+		assertThat(targetDir.listFiles().length).isEqualTo(targetFileMap.size());
+		assertThat(tempDir).doesNotExist();
 	}
 
 	@Test
 	@Transactional
 	public void testCreateOrUpdatePhotoAlbum() {
 		imageRepository.deleteAll();
-		assertTrue("table image is not empty", imageRepository.findAll().isEmpty());
-		assertFalse(params.isDebug());
+		assertThat(imageRepository.findAll()).as("table image is not empty").isEmpty();
+		assertThat(params.isDebug()).isFalse();
 		List<Image> imageList = underTest.createOrUpdatePhotoAlbum(params);
-		assertEquals(2, imageList.size());
-		for(Image thisImage : imageList) {
-			assertNotNull(thisImage.getTempFile());
+		assertThat(imageList).hasSize(2);
+		for (Image thisImage : imageList) {
+			assertThat(thisImage.getTempFile()).isNotNull();
 		}
 		imageRepository.saveAll(imageList);
-		for(Image imageFromDb : imageRepository.findAll()) {
-			assertTrue("error in DB", imageFromDb.getCreationDate().equals(imageList.get(0).getCreationDate()) ||
-							imageFromDb.getCreationDate().equals(imageList.get(1).getCreationDate()));
-			assertNull(imageFromDb.getTempFile());
-			assertTrue("wrong filename", imageFromDb.getFilename().startsWith(PREFIX));
+		for (Image imageFromDb : imageRepository.findAll()) {
+			assertThat(imageFromDb.getCreationDate().equals(imageList.get(0).getCreationDate()) ||
+					imageFromDb.getCreationDate().equals(imageList.get(1).getCreationDate())).as("error in DB").isTrue();
+			assertThat(imageFromDb.getTempFile()).isNull();
+			assertThat(imageFromDb.getFilename()).as("wrong filename").startsWith(PREFIX);
 		}
 	}
 
