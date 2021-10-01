@@ -28,16 +28,25 @@ dependencies {
 	implementation 'org.apache.commons:commons-imaging:1.0-alpha1'
 //	implementation 'org.flywaydb:flyway-core:7.14.1'
 	implementation 'org.owasp:dependency-check-gradle:6.3.1'
-	runtimeOnly 'org.postgresql:postgresql:42.2.23.jre7'
+	runtimeOnly 'org.postgresql:postgresql:42.2.24.jre7'
 
 //	OWASP
 	implementation group: 'org.glassfish', name: 'jakarta.el', version: '3.0.4'
 	implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.53'
 	implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.53'
 	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.5.7.Final'
-	implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.10'
-	implementation group: 'org.springframework', name: 'spring-web', version: '5.3.10'
-
+	implementation group: 'org.springframework', name: 'spring-aop', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-aspects', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-beans', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-context', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-core', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-expression', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-jcl', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-orm', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-tx', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.2.17.RELEASE'
+	implementation group: 'org.springframework', name: 'spring-web', version: '5.2.17.RELEASE'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test:2.5.5') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
