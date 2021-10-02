@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class NumberConverterTest {
 
@@ -13,16 +13,16 @@ public class NumberConverterTest {
 	Pattern floatPattern = null;
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	public void setUp() {
 		intPattern = Pattern.compile("[+-]?[1-9]{1}\\d*");
 		floatPattern = Pattern.compile("[+-]?([0-9]*[.])+[0-9]+");
 	}
 
 	@Test
 	public void test() {
-		assertEquals(NumberFormat.INT, checkForNumber("12345"));
-		assertEquals(NumberFormat.FLOAT, checkForNumber("12.345"));
-		assertEquals(NumberFormat.NONE, checkForNumber("01234"));
+		assertThat(checkForNumber("12345")).isEqualTo(NumberFormat.INT);
+		assertThat(checkForNumber("12.345")).isEqualTo(NumberFormat.FLOAT);
+		assertThat(checkForNumber("01234")).isEqualTo(NumberFormat.NONE);
 	}
 
 	private NumberFormat checkForNumber(String numericString) {
@@ -35,7 +35,7 @@ public class NumberConverterTest {
 	}
 
 	private enum NumberFormat {
-		INT, FLOAT, NONE;
+		INT, FLOAT, NONE
 	}
 
 }
