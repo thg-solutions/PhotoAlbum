@@ -1,1 +1,11 @@
 rootProject.name = 'photoalbum'
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        flatDir {
+            dirs 'lib'
+        }
+    }
+}
+

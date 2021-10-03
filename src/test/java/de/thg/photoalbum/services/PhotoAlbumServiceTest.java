@@ -102,7 +102,7 @@ public class PhotoAlbumServiceTest {
 		File targetDir = targetpath.toFile();
 		underTest.copyFiles(targetFileMap, targetDir);
 		assertThat(targetDir).exists();
-		assertThat(targetDir.listFiles().length).isEqualTo(targetFileMap.size());
+		assertThat(targetFileMap).hasSameSizeAs(targetDir.listFiles());
 		assertThat(tempDir).doesNotExist();
 	}
 
