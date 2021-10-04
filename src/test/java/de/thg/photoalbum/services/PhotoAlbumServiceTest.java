@@ -9,12 +9,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,10 +38,10 @@ public class PhotoAlbumServiceTest {
 
 	private AlbumParams params;
 
-	@Autowired
+	@Inject
 	private PhotoAlbumService underTest;
 
-	@Autowired
+	@Inject
 	private ImageRepository imageRepository;
 
 	@Value("${photoalbum.prefix}")

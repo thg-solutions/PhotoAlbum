@@ -23,7 +23,7 @@ public class ApacheImageReader implements ImageMetadataReader {
     public Image readImageMetadata(InputStream fileInputStream, String originalName) {
         Image image = new Image();
         image.setFilename(originalName);
-        try {
+        try (fileInputStream) {
             ImageMetadata metadata = Imaging.getMetadata(fileInputStream, originalName);
 
             if (metadata instanceof JpegImageMetadata) {
