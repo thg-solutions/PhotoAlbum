@@ -26,7 +26,7 @@ public class MetadataExtractorReader implements ImageMetadataReader {
     public Image readImageMetadata(InputStream inputStream, String originalName) {
         Image image = new Image();
         image.setFilename(originalName);
-        try {
+        try (inputStream) {
             Metadata metadata = JpegMetadataReader.readMetadata(inputStream, Arrays.asList(new ExifReader()));
             Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
             image.setCreationDate(directory.getDescription(ExifIFD0Directory.TAG_DATETIME));

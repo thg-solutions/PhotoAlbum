@@ -5,12 +5,16 @@ import de.thg.photoalbum.model.Image;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import javax.inject.Inject;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,9 +22,12 @@ import java.util.stream.Collectors;
 @Service
 public class PhotoAlbumService {
 
-    @Autowired
+    private Tika tika;
+
+    @Inject
     public PhotoAlbumService(@Qualifier("metadata-extractor") ImageMetadataReader imageMetadataReader) {
         this.imageMetadataReader = imageMetadataReader;
+        tika = new Tika();
     }
 
     private static final Logger LOGGER = LogManager.getLogger(PhotoAlbumService.class);
@@ -52,7 +59,7 @@ public class PhotoAlbumService {
         File targetDir = new File(target);
         if(!targetDir.exists()) {
             targetDir.mkdirs();
-            LOGGER.info("created directory " + targetDir.getAbsolutePath());
+            LOGGER.debug("created directory " + targetDir.getAbsolutePath());
         }
 
         List<File> fileList = createFilteredFileList(albumParams);
@@ -66,7 +73,6 @@ public class PhotoAlbumService {
             }
         } catch (IOException e) {
             LOGGER.error(e);
-            e.printStackTrace();
         }
 
         String msg = albumParams.isDebug() ? "simulated handling of " : "copied or updated ";
@@ -86,10 +92,10 @@ public class PhotoAlbumService {
                 fileList.addAll(Arrays.asList(directory.listFiles()));
             }
         }
-        return fileList.stream().filter(file -> file.isFile() && file.getName().endsWith("JPG")).collect(Collectors.toList());
+        return fileList.stream().filter(file -> isJpg(file)).collect(Collectors.toList());
     }
 
-    Map<Image, File> createFileMap(List<File> fileList) throws FileNotFoundException {
+    Map<Image, File> createFileMap(List<File> fileList) throws IOException {
         Map<Image, File> fileMap = new TreeMap<>();
         for (File file : fileList) {
             Image image = imageMetadataReader.readImageMetadata(new FileInputStream(file), file.getName());
@@ -152,4 +158,16 @@ public class PhotoAlbumService {
         return Optional.ofNullable(imageMetadataReader.readImageMetadata(inputStream, originalName));
     }
 
+    private boolean isJpg(File imageFile) {
+        try {
+            if (!"image/jpeg".equals(tika.detect(imageFile))) {
+                LOGGER.info(imageFile.getAbsolutePath() + " is not a JPEG.");
+                return false;
+            }
+        } catch (IOException e) {
+            LOGGER.error(imageFile.getAbsolutePath() + " is not a file.");
+            return false;
+        }
+        return true;
+    }
 }

@@ -1,21 +1,13 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-	id 'java'
+	id 'java-library'
 	id "org.flywaydb.flyway" version "6.5.5"
 	id 'org.owasp.dependencycheck' version '6.3.1'
 }
 
 group = 'de.thg'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-repositories {
-	mavenCentral()
-	flatDir {
-		dirs 'lib'
-	}
-}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
@@ -26,6 +18,7 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'com.drewnoakes:metadata-extractor:2.16.0'
 	implementation 'org.apache.commons:commons-imaging:1.0-alpha1'
+	implementation 'org.apache.tika:tika-core:2.1.0'
 //	implementation 'org.flywaydb:flyway-core:7.14.1'
 	implementation 'org.owasp:dependency-check-gradle:6.3.1'
 	runtimeOnly 'org.postgresql:postgresql:42.2.24.jre7'
@@ -55,6 +48,12 @@ dependencies {
 	testRuntimeOnly 'com.h2database:h2:1.4.200'
 }
 
+java {
+	toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+}
+
 test {
 	useJUnitPlatform()
 }
+
+check.dependsOn dependencyCheckAnalyze
