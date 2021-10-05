@@ -4,6 +4,7 @@ plugins {
 	id 'java-library'
 	id "org.flywaydb.flyway" version "6.5.5"
 	id 'org.owasp.dependencycheck' version '6.3.1'
+	id "io.freefair.lombok" version "6.2.0"
 }
 
 group = 'de.thg'
@@ -13,7 +14,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.5'
 
-	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	implementation 'io.springfox:springfox-swagger2:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'com.drewnoakes:metadata-extractor:2.16.0'

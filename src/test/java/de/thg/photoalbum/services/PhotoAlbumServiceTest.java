@@ -72,8 +72,8 @@ public class PhotoAlbumServiceTest {
 	@BeforeEach
 	public void setUp() {
 		params = new AlbumParams();
-		params.addSource(sourcepath1.toString());
-		params.addSource(sourcepath2.toString());
+		params.getSources().add(sourcepath1.toString());
+		params.getSources().add(sourcepath2.toString());
 		params.setTarget(targetpath.toString());
 		params.setDebug(false);
 	}

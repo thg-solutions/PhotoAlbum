@@ -1,10 +1,11 @@
 package de.thg.photoalbum.model;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class AlbumParams {
 
 	private String target;
@@ -13,39 +14,11 @@ public class AlbumParams {
 
 	private boolean debug;
 
-	public String getTarget() {
-		return target;
-	}
-
-	public void setTarget(String target) {
-		this.target = target;
-	}
-
 	public List<String> getSources() {
+		if (sources == null) {
+			sources = new ArrayList<>();
+		}
 		return sources;
 	}
 
-	public void setSources(List<String> sources) {
-		this.sources = sources;
-	}
-	
-	public void addSource(String source) {
-		if(this.sources == null) {
-			this.sources = new ArrayList<String>();
-		}
-		this.sources.add(source);
-	}
-
-	public boolean isDebug() {
-		return debug;
-	}
-
-	public void setDebug(boolean debug) {
-		this.debug = debug;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
 }

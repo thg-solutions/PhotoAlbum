@@ -2,13 +2,14 @@ package de.thg.photoalbum.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.File;
 import java.util.Date;
 
 @Entity
+@EqualsAndHashCode
 public class Image implements Comparable<Image> {
 
     @Id
@@ -77,11 +78,6 @@ public class Image implements Comparable<Image> {
 
     public void setTempFile(File tempFile) {
         this.tempFile = tempFile;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
