@@ -13,9 +13,8 @@ version = '0.0.1-SNAPSHOT'
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.5'
+	implementation "io.springfox:springfox-boot-starter:3.0.0"
 
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'com.drewnoakes:metadata-extractor:2.16.0'
 	implementation 'org.apache.commons:commons-imaging:1.0-alpha1'
 	implementation 'org.apache.tika:tika-core:2.1.0'
