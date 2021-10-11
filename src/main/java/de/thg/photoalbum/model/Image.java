@@ -3,28 +3,42 @@ package de.thg.photoalbum.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.File;
 import java.util.Date;
 
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "version")
+@ToString(exclude = "version")
 public class Image implements Comparable<Image> {
 
     @Id
     @Column(columnDefinition = "varchar(32)")
+    @Getter
+    @Setter
     private String creationDate;
 
+    @Getter
+    @Setter
     private Double latitude;
 
+    @Getter
+    @Setter
     private Double longitude;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(timezone = "Europe/Berlin")
+    @Getter
+    @Setter
     private Date lastModified;
 
     @Column(columnDefinition = "varchar(32)")
+    @Getter
+    @Setter
     private String filename;
 
     @Version
@@ -32,57 +46,12 @@ public class Image implements Comparable<Image> {
 
     @Transient
     @JsonIgnore
+    @Getter
+    @Setter
     private File tempFile;
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Double getLatitude() { return latitude; }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public File getTempFile() {
-        return tempFile;
-    }
-
-    public void setTempFile(File tempFile) {
-        this.tempFile = tempFile;
-    }
 
     @Override
     public int compareTo(Image o) {
-        return this.getCreationDate().compareTo(o.getCreationDate());
+        return this.creationDate.compareTo(o.creationDate);
     }
-
 }
