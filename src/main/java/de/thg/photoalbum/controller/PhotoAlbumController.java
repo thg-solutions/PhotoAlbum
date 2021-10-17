@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,9 @@ public class PhotoAlbumController {
 
     @GetMapping("/photos")
     public List<Image> getAllImages() {
-        return imageRepository.findAll();
+        List<Image> imageList = imageRepository.findAll();
+        Collections.sort(imageList);
+        return imageList;
     }
 
     @GetMapping("/photos/search/namestartingwith")

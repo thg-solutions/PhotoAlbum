@@ -1,15 +1,18 @@
 = PhotoAlbum
 
-The very first idea was to extract the date of image creation from a list of JPEG files and sorting the files accordingly by renaming the images in an appropriate order. When this was done I discovered that there is more interessting metadata, namely the GPS coordinates from where the pictures were taken. And surprisingly Google Maps displays those locations with a deviation of not more than a few meters.
+The very first idea was to extract the date of image creation from a list of JPEG files and sorting the files accordingly by renaming the images in an appropriate order.When this was done I discovered that there is more interessting metadata, namely the GPS coordinates from where the pictures were taken.And surprisingly Google Maps displays those locations with a deviation of not more than a few meters.
 
-Since common file systems don't support metadata besides the file order (expressed by the sorting of the file names) a database came into play. First I chose MariaDB, but when I later decided to use Flyway to maintain the database it showed that the actual version of Flyway doesn't support the version of MariaDB that comes with Ubuntu 18.04. Therefore I switched to PostGreSQL.
+Since common file systems don't support metadata besides the file order (expressed by the sorting of the file names) a database came into play.First I chose MariaDB, but when I later decided to use Flyway to maintain the database it showed that the actual version of Flyway doesn't support the version of MariaDB that comes with Ubuntu 18.04. Therefore I switched to PostGreSQL.
 
 == Configuration
 
-Actually there is nothing more to do than to configure your PostGreSQL database in `/src/java/main/resources/application.properties`. If you want to use another database you have to configure the appropriate database driver as `runtimeOnly` in `\build.gradle`. The tests use an in-memory db anyway.
+Actually there is nothing more to do than to configure your PostGreSQL database in `/src/java/main/resources/application.properties`.
+If you want to use another database you have to configure the appropriate database driver as `runtimeOnly` in `build.gradle`.
+The tests use configured DB.
+An in-memory db for additional tests is present but not yet used.
+If you want to run tests against the in-memory db use the annotation `@DataJpaTest` instead of `@SpringBootTest`.
 
 The three properties belonging to the application are self-explanatory (I hope):
-
 
 |===
 |Name |Value
@@ -21,7 +24,7 @@ The three properties belonging to the application are self-explanatory (I hope):
 
 == Testing
 
-The application needs real test data. There is no way of mocking something. Therefore the required directories are created in the system's temp-directory and polulated with two pictures of the Chinese Tower in the Munich English Garden. The test data is deleted after running the tests.
+The application needs real test data.There is no way of mocking something.Therefore the required directories are created in the system's temp-directory and polulated with two pictures of the Chinese Tower in the Munich English Garden.The test data is deleted after running the tests.
 
 == Running the Application
 
