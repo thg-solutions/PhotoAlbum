@@ -1,14 +1,17 @@
 = PhotoAlbum
 
-The very first idea was to extract the date of image creation from a list of JPEG files and sorting the files accordingly by renaming the images in an appropriate order.When this was done I discovered that there is more interessting metadata, namely the GPS coordinates from where the pictures were taken.And surprisingly Google Maps displays those locations with a deviation of not more than a few meters.
+The very first idea was to extract the date of image creation from a list of JPEG files and sorting the files accordingly by renaming the images in an appropriate order.
+When this was done I discovered that there is more interessting metadata, namely the GPS coordinates from where the pictures were taken.
+And surprisingly Google Maps displays those locations with a deviation of not more than a few meters.
 
-Since common file systems don't support metadata besides the file order (expressed by the sorting of the file names) a database came into play.First I chose MariaDB, but when I later decided to use Flyway to maintain the database it showed that the actual version of Flyway doesn't support the version of MariaDB that comes with Ubuntu 18.04. Therefore I switched to PostGreSQL.
+Since common file systems don't support metadata besides the file order (expressed by the sorting of the file names) a database came into play.
+First I chose MariaDB, but when I later decided to use Flyway to maintain the database it showed that the actual version of Flyway doesn't support the version of MariaDB that comes with Ubuntu 18.04. Therefore I switched to PostGreSQL.
 
 == Configuration
 
 Actually there is nothing more to do than to configure your PostGreSQL database in `/src/java/main/resources/application.properties`.
 If you want to use another database you have to configure the appropriate database driver as `runtimeOnly` in `build.gradle`.
-The tests use configured DB.
+The tests use the configured DB.
 An in-memory db for additional tests is present but not yet used.
 If you want to run tests against the in-memory db use the annotation `@DataJpaTest` instead of `@SpringBootTest`.
 
@@ -24,12 +27,18 @@ The three properties belonging to the application are self-explanatory (I hope):
 
 == Testing
 
-The application needs real test data.There is no way of mocking something.Therefore the required directories are created in the system's temp-directory and polulated with two pictures of the Chinese Tower in the Munich English Garden.The test data is deleted after running the tests.
+The application needs real test data.
+There is no way of mocking something.
+Therefore the required directories are created in the system's temp-directory and polulated with two pictures of the Chinese Tower in the Munich English Garden.
+The test data is deleted after running the tests.
 
 == Running the Application
 
-The program includes a small REST-Api that can be examined and called utilizing the integrated Swagger-UI (`localhost:8080/swagger-ui.html`). The reason is that I found out that the same functionality runs incredibly faster when it is implemented in Python, and I wasn't willing to write different clients for different server implementations. For now there is no other client, so you have to call the program with any REST client (e.g. Swagger).
+The program includes a small REST-Api that can be examined and called utilizing the integrated Swagger-UI (`localhost:8080/swagger-ui.html`).
+The reason is that I found out that the same functionality runs incredibly faster when it is implemented in Python, and I wasn't willing to write different clients for different server implementations.
+For now there is no other client, so you have to call the program with any REST client (e.g. Swagger).
 
-If the configured target directory is not empty then its content is handled as if it were located in one of the source directories: No image files are lost, but they may be renamed by the program. The database stores the extracted metadata in a table called `image` which is self-explanatory.
+If the configured target directory is not empty then its content is handled as if it were located in one of the source directories: No image files are lost, but they may be renamed by the program.
+The database stores the extracted metadata in a table called `image` which is self-explanatory.
 
 *Caution*: If the target directory contains files that are not recognized as images these files will be lost!
