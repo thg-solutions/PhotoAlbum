@@ -118,6 +118,7 @@ public class PhotoAlbumService {
         int count = START_COUNT;
         DecimalFormat df = new DecimalFormat("0000");
         for (Image key : fileMap.keySet()) {
+            // new Filename: yyyyMMdd_HHmmss
             String filename = PREFIX + df.format(count) + "." + EXTENSION;
             File newFileInTempDir = new File(tempDir, filename);
             key.setFilename(filename);
