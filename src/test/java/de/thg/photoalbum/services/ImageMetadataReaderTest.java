@@ -5,6 +5,7 @@ import org.apache.tika.Tika;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class ImageMetadataReaderTest {
 
     @Inject
