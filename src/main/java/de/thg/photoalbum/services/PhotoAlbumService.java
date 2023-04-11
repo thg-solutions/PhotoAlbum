@@ -16,7 +16,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -122,7 +129,7 @@ public class PhotoAlbumService {
             String filename = PREFIX + df.format(count) + "." + EXTENSION;
             File newFileInTempDir = new File(tempDir, filename);
             key.setFilename(filename);
-            key.setLastModified(new Date());
+            key.setLastModified(LocalDateTime.now());
             key.setTempFile(newFileInTempDir);
             targetFileMap.put(fileMap.get(key), key);
             count++;

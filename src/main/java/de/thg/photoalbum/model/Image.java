@@ -1,12 +1,9 @@
 package de.thg.photoalbum.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 import lombok.EqualsAndHashCode;
@@ -15,7 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.File;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @EqualsAndHashCode(exclude = "version")
@@ -36,11 +33,9 @@ public class Image implements Comparable<Image> {
     @Setter
     private Double longitude;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(timezone = "Europe/Berlin")
     @Getter
     @Setter
-    private Date lastModified;
+    private LocalDateTime lastModified;
 
     @Column(columnDefinition = "varchar(32)")
     @Getter
