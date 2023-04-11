@@ -64,7 +64,7 @@ public class PhotoAlbumController {
         return imageList;
     }
 
-    @PostMapping(value = "analyse", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "analyse", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Image> analyseImage(@RequestParam("file") MultipartFile fileToAnalyse) throws IOException {
         Optional<Image> result = service.analyseImage(fileToAnalyse.getInputStream(), fileToAnalyse.getOriginalFilename());
         fileToAnalyse.getInputStream().close();
