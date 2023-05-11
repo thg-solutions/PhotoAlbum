@@ -5,6 +5,8 @@ plugins {
 	id "org.flywaydb.flyway" version "9.8.1"
 	id 'org.owasp.dependencycheck' version '8.2.1'
 	id "io.freefair.lombok" version "8.0.1"
+	id 'jacoco'
+	id "org.sonarqube" version "4.0.0.2929"
 }
 
 group = 'de.thg'
@@ -39,6 +41,13 @@ java {
 
 test {
 	useJUnitPlatform()
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+	}
+	dependsOn test
 }
 
 check.dependsOn dependencyCheckAnalyze

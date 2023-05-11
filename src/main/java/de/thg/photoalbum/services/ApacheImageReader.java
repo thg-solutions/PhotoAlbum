@@ -26,14 +26,9 @@ public class ApacheImageReader implements ImageMetadataReader {
         try (fileInputStream) {
             ImageMetadata metadata = Imaging.getMetadata(fileInputStream, originalName);
 
-            if (metadata instanceof JpegImageMetadata) {
-                JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
-                try {
-                    image.setCreationDate(jpegMetadata.findEXIFValueWithExactMatch(TiffTagConstants.TIFF_TAG_DATE_TIME)
+            if (metadata instanceof JpegImageMetadata jpegMetadata) {
+                image.setCreationDate(jpegMetadata.findEXIFValueWithExactMatch(TiffTagConstants.TIFF_TAG_DATE_TIME)
                             .getValue().toString());
-                } catch (ImageReadException e) {
-                    e.printStackTrace();
-                }
                 if (null != jpegMetadata.getExif() && null != jpegMetadata.getExif().getGPS()) {
                     TiffImageMetadata.GPSInfo gpsInfo = jpegMetadata.getExif().getGPS();
                     image.setLongitude(gpsInfo.getLongitudeAsDegreesEast());

@@ -22,9 +22,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @Service
 public class PhotoAlbumService {
@@ -89,17 +89,16 @@ public class PhotoAlbumService {
     }
 
     List<File> createFilteredFileList(AlbumParams params) {
-        List<File> fileList = new ArrayList<>();
-        fileList.addAll(Arrays.asList(new File(params.getTarget()).listFiles()));
+        List<File> fileList = new ArrayList<>(Arrays.asList(Objects.requireNonNull(new File(params.getTarget()).listFiles())));
         if(params.getSources() != null) {
-            for (File directory : params.getSources().stream().map(File::new).collect(Collectors.toList())) {
+            for (File directory : params.getSources().stream().map(File::new).toList()) {
                 if (!directory.isDirectory()) {
                     continue;
                 }
-                fileList.addAll(Arrays.asList(directory.listFiles()));
+                fileList.addAll(Arrays.asList(Objects.requireNonNull(directory.listFiles())));
             }
         }
-        return fileList.stream().filter(file -> isJpg(file)).collect(Collectors.toList());
+        return fileList.stream().filter(this::isJpg).toList();
     }
 
     Map<Image, File> createFileMap(List<File> fileList) throws IOException {
@@ -108,7 +107,7 @@ public class PhotoAlbumService {
             Image image = imageMetadataReader.readImageMetadata(new FileInputStream(file), file.getName());
             if (image != null) {
                 if (fileMap.containsKey(image)) {
-                    LOGGER.debug("duplicate timestamp: " + file + " - " + fileMap.get(image));
+                    LOGGER.debug("duplicate timestamp: {0} - {1}", file, fileMap.get(image));
                 } else {
                     fileMap.put(image, file);
                 }
@@ -124,14 +123,14 @@ public class PhotoAlbumService {
         FileUtils.forceDeleteOnExit(tempDir);
         int count = START_COUNT;
         DecimalFormat df = new DecimalFormat("0000");
-        for (Image key : fileMap.keySet()) {
+        for (Map.Entry<Image, File> entry : fileMap.entrySet()) {
             // new Filename: yyyyMMdd_HHmmss
             String filename = PREFIX + df.format(count) + "." + EXTENSION;
             File newFileInTempDir = new File(tempDir, filename);
-            key.setFilename(filename);
-            key.setLastModified(LocalDateTime.now());
-            key.setTempFile(newFileInTempDir);
-            targetFileMap.put(fileMap.get(key), key);
+            entry.getKey().setFilename(filename);
+            entry.getKey().setLastModified(LocalDateTime.now());
+            entry.getKey().setTempFile(newFileInTempDir);
+            targetFileMap.put(entry.getValue(), entry.getKey());
             count++;
         }
         return targetFileMap;
@@ -150,9 +149,9 @@ public class PhotoAlbumService {
     List<Image> copyFiles(Map<File, Image> filesToCopy, File targetDir) throws IOException {
         List<Image> result = new ArrayList<>();
         if(!filesToCopy.isEmpty()){
-            for (File key : filesToCopy.keySet()) {
-                FileUtils.copyFile(key, filesToCopy.get(key).getTempFile());
-                result.add(filesToCopy.get(key));
+            for (Map.Entry<File, Image> entry : filesToCopy.entrySet()) {
+                FileUtils.copyFile(entry.getKey(), entry.getValue().getTempFile());
+                result.add(entry.getValue());
             }
             File tempDir = filesToCopy.get(filesToCopy.keySet().iterator().next()).getTempFile().getParentFile();
             FileUtils.cleanDirectory(targetDir);
@@ -169,11 +168,11 @@ public class PhotoAlbumService {
     private boolean isJpg(File imageFile) {
         try {
             if (!"image/jpeg".equals(tika.detect(imageFile))) {
-                LOGGER.info(imageFile.getAbsolutePath() + " is not a JPEG.");
+                LOGGER.info("{0} is not a JPEG.", imageFile.getAbsolutePath());
                 return false;
             }
         } catch (IOException e) {
-            LOGGER.error(imageFile.getAbsolutePath() + " is not a file.");
+            LOGGER.error("{0} is not a file.", imageFile.getAbsolutePath());
             return false;
         }
         return true;
