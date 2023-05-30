@@ -172,7 +172,7 @@ public class PhotoAlbumService {
                 return false;
             }
         } catch (IOException e) {
-            LOGGER.error("{0} is not a file.", imageFile.getAbsolutePath());
+            LOGGER.error("{0} is not readable.", imageFile.getAbsolutePath());
             return false;
         }
         return true;
