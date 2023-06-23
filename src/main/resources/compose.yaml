@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:15.2-alpine
+    environment:
+      POSTGRES_USER: tom
+      POSTGRES_PASSWORD: tom
+    volumes:
+      - ./db/migration:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: pg_isready -U tom
+      interval: 10s
+      retries: 10
+  photoalbum:
+    image: photoalbum:0.0.1-SNAPSHOT
+    environment:
+      DB_HOST: postgres
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
