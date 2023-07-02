@@ -1,17 +1,18 @@
 services:
   postgres:
-    image: postgres:15.2-alpine
+    image: postgres:15.3-alpine3.18
     environment:
       POSTGRES_USER: tom
       POSTGRES_PASSWORD: tom
+      POSTGRES_DB: photoalbum
     volumes:
       - ./db/migration:/docker-entrypoint-initdb.d
     healthcheck:
-      test: pg_isready -U tom
+      test: pg_isready -U tom -d photoalbum
       interval: 10s
       retries: 10
   photoalbum:
-    image: photoalbum:0.0.1-SNAPSHOT
+    image: photoalbum:0.0.3-SNAPSHOT
     environment:
       DB_HOST: postgres
     ports:
