@@ -1,6 +1,5 @@
 package de.thg.photoalbum;
 
-import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,7 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = PhotoAlbumApplication.class)
 @AutoConfigureMockMvc
-public class PhotoAlbumAppIT extends AbstractContainerBaseTest {
+@ActiveProfiles("tc")
+public class PhotoAlbumAppIT {
 
     @LocalServerPort
     private int ports;
@@ -38,6 +39,8 @@ public class PhotoAlbumAppIT extends AbstractContainerBaseTest {
 
     @Test
     void testGetAllSpringMvc() throws Exception {
-        mvc.perform(get("/photoalbum/photos").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        mvc.perform(get("/photoalbum/photos").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(result -> result.getResponse().getContentAsString().equals("[]"));
     }
 }

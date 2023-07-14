@@ -1,9 +1,9 @@
 package de.thg.photoalbum.repositories;
 
 import de.thg.photoalbum.model.Image;
-import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql(statements = {"insert into image (creation_date, filename, version) values (\'Date_1\', \'Image_1\', 0)",
         "insert into image (creation_date, filename, version) values (\'Date_2\', \'Image_2\', 0)"})
 @SpringBootTest
-class ImageRepositoryTest extends AbstractContainerBaseTest {
+@ActiveProfiles("tc")
+class ImageRepositoryTest {
 
     @Inject
     ImageRepository imageRepository;

@@ -11,6 +11,8 @@ services:
       test: pg_isready -U tom -d photoalbum
       interval: 10s
       retries: 10
+    expose:
+      - "5432"
   photoalbum:
     image: photoalbum:0.0.3-SNAPSHOT
     environment:

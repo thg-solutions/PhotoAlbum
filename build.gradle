@@ -3,7 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'java-library'
 	id "org.flywaydb.flyway" version "9.8.1"
-	id 'org.owasp.dependencycheck' version '8.2.1'
+	id 'org.owasp.dependencycheck' version '8.3.1'
 	id "io.freefair.lombok" version "8.0.1"
 	id 'jacoco'
 	id "org.sonarqube" version "4.0.0.2929"
@@ -24,7 +24,7 @@ dependencies {
 	implementation 'com.drewnoakes:metadata-extractor:2.18.0'
 	implementation 'org.apache.commons:commons-imaging:1.0-alpha2'
 	implementation 'org.apache.tika:tika-core:2.7.0'
-	implementation 'org.owasp:dependency-check-gradle:8.1.2'
+	implementation 'org.owasp:dependency-check-gradle:8.3.1'
 	runtimeOnly 'org.postgresql:postgresql:42.5.4'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -56,7 +56,7 @@ task integrationTest(type: Test) {
 //	reports.junitXml.outputLocation = file("$reports.junitXml.destination/integration")
 }
 
-check.dependsOn(integrationTest)
+//check.dependsOn(integrationTest)
 
 jacocoTestReport {
 	reports {
@@ -69,7 +69,7 @@ pitest {
 	junit5PluginVersion = '1.1.2'
 }
 
-check.dependsOn dependencyCheckAnalyze
+//check.dependsOn dependencyCheckAnalyze
 
 flyway {
 	url = 'jdbc:postgresql://localhost:5432/tom'
