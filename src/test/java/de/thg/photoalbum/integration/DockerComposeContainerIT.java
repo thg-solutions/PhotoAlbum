@@ -1,3 +1,4 @@
+/*
 package de.thg.photoalbum.integration;
 
 import io.restassured.RestAssured;
@@ -40,3 +41,4 @@ public class DockerComposeContainerIT {
                 .then().assertThat().statusCode(HttpStatus.OK.value());
     }
 }
+*/

@@ -56,7 +56,7 @@ task integrationTest(type: Test) {
 //	reports.junitXml.outputLocation = file("$reports.junitXml.destination/integration")
 }
 
-//check.dependsOn(integrationTest)
+check.dependsOn(integrationTest)
 
 jacocoTestReport {
 	reports {
