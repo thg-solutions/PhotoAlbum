@@ -1,11 +1,9 @@
 package de.thg.photoalbum.repositories;
 
 import de.thg.photoalbum.model.Image;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -13,17 +11,21 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Sql(statements = {"insert into image (creation_date, filename, version) values (\'Date_1\', \'Image_1\', 0)",
-        "insert into image (creation_date, filename, version) values (\'Date_2\', \'Image_2\', 0)"})
 @SpringBootTest
-@ActiveProfiles("tc")
-class ImageRepositoryTest {
+class ImageRepositoryTest /*extends AbstractContainerBaseTest*/ {
 
     @Inject
     ImageRepository imageRepository;
 
+    @BeforeEach
+    void setup() {
+        imageRepository.deleteAll();
+        Image image1 = new Image("Image_1", "Date_1");
+        Image image2 = new Image("Image_2", "Date_2");
+        imageRepository.saveAll(List.of(image1, image2));
+    }
+
     @Test
-    @Transactional
     void testFindImage() {
         Optional<Image> image1 = imageRepository.findByFilename("Image_2");
         assertThat(image1).isPresent();
@@ -31,24 +33,34 @@ class ImageRepositoryTest {
     }
 
     @Test
-    @Transactional
-    void testFindBaNameStartingWith() {
+    void testFindByNameStartingWith() {
         List<Image> images = imageRepository.findByFilenameStartingWith("Image");
         assertThat(images).hasSize(2);
     }
 
     @Test
-    @Transactional
     void saveImage() {
         assertThat(imageRepository.findAll()).hasSize(2);
-        Image image = new Image();
-        image.setCreationDate("3");
-        Image savedImage = imageRepository.saveAndFlush(image);
-        assertThat(savedImage).isNotNull();
+        Image image = new Image("", "3");
+        Image savedImage = imageRepository.save(image);
+        assertThat(savedImage.getId()).isNotNull();
         assertThat(savedImage.getCreationDate()).isEqualTo("3");
         assertThat(imageRepository.findAll()).hasSize(3);
         assertThat(imageRepository.findAll()).contains(savedImage);
-        assertThat(savedImage).isEqualTo(image);
-        assertThat(savedImage).isNotSameAs(image);
+        assertThat(savedImage).isSameAs(image);
+    }
+
+    @Test
+    void updateImage() {
+        Image image = new Image("Image_3", "Date_3");
+        assertThat(image.getId()).isNull();
+        imageRepository.save(image);
+        String imageId = image.getId();
+        assertThat(imageId).isNotNull();
+        assertThat(imageRepository.findAll()).hasSize(3);
+        image.setCreationDate("Date_3.1");
+        imageRepository.save(image);
+        assertThat(imageRepository.findAll()).hasSize(3);
+        assertThat(image.getId()).isEqualTo(imageId);
     }
 }

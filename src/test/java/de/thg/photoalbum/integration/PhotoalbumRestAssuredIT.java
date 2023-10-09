@@ -1,5 +1,6 @@
 package de.thg.photoalbum.integration;
 
+import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -8,14 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 
 import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("tc")
-public class PhotoalbumRestAssuredIT {
+public class PhotoalbumRestAssuredIT extends AbstractContainerBaseTest {
 
     @LocalServerPort
     private int port;

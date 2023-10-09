@@ -1,17 +1,26 @@
 package de.thg.photoalbum.testcontainers;
 
-import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.utility.DockerImageName;
 
-@ActiveProfiles("tc")
 public abstract class AbstractContainerBaseTest {
 
-    static final PostgreSQLContainer postgres;
+    // keine JUnit5-Annotationen! Sonst würde der Container nach jeder Test-Klasse abgeräumt,
+    // aber für die nächste Klasse, die diese abstrakte Klasse erweitert, nicht neu gebaut.
+    static final MongoDBContainer mongodb = new MongoDBContainer(DockerImageName.parse("mongodb/mongodb-community-server:7.0.1-ubi8").asCompatibleSubstituteFor("mongo"));
 
     static {
-        postgres = new PostgreSQLContainer("postgres:15.3-alpine3.18")
-            .withDatabaseName("photoalbum");
-        postgres.start();
+        mongodb.start();
     }
 
+    @DynamicPropertySource
+    // ist eigens dafür da, Properties dynamisch erst dann zu setzen, wenn sie bekannt sind,
+    // also nach dem Start eines Containers. Es ist unklar, wann oder wie oft das genau passiert,
+    // aber die empfohlene Annotation @BeforeAll wird auch einmal pro Test-Klasse aufgerufen, also
+    // öfter als nötig. System.setProperty(...) im static-Block wäre eine Alternative.
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.port", mongodb::getFirstMappedPort);
+    }
 }

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -107,7 +106,6 @@ public class PhotoAlbumServiceTest {
 	}
 
 	@Test
-	@Transactional
 	public void testCreateOrUpdatePhotoAlbum() {
 		imageRepository.deleteAll();
 		assertThat(imageRepository.findAll()).as("table image is not empty").isEmpty();

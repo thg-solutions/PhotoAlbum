@@ -1,24 +1,22 @@
 services:
-  postgres:
-    image: postgres:15.3-alpine3.18
+  mongodb:
+    image: mongodb/mongodb-community-server:7.0.1-ubi8
     environment:
-      POSTGRES_USER: tom
-      POSTGRES_PASSWORD: tom
-      POSTGRES_DB: photoalbum
-    volumes:
-      - ./db/migration:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: pg_isready -U tom -d photoalbum
-      interval: 10s
-      retries: 10
+      MONGO_INITDB_DATABASE: photoalbum
+#    volumes:
+#      - ./db/migration:/docker-entrypoint-initdb.d
+#    healthcheck:
+#      test: pg_isready -U tom -d photoalbum
+#      interval: 10s
+#      retries: 10
     expose:
-      - "5432"
+      - "27017"
   photoalbum:
-    image: photoalbum:0.0.3-SNAPSHOT
+    image: photoalbum:0.0.4-SNAPSHOT
     environment:
-      DB_HOST: postgres
+      DB_HOST: mongodb
     ports:
-      - 8080:8080
-    depends_on:
-      postgres:
-        condition: service_healthy
+      - 8090:8080
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
