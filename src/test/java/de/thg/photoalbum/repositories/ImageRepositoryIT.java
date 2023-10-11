@@ -1,6 +1,7 @@
 package de.thg.photoalbum.repositories;
 
 import de.thg.photoalbum.model.Image;
+import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class ImageRepositoryTest /*extends AbstractContainerBaseTest*/ {
+class ImageRepositoryIT extends AbstractContainerBaseTest {
 
     @Inject
     ImageRepository imageRepository;

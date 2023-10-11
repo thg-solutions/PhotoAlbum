@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 @Service
 public class PhotoAlbumService {
@@ -38,6 +40,10 @@ public class PhotoAlbumService {
     }
 
     private static final Logger LOGGER = LogManager.getLogger(PhotoAlbumService.class);
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
+    private static final Pattern pattern = Pattern.compile("\\d{8}_\\d{6}.jpg");
+
 
     private final ImageMetadataReader imageMetadataReader;
 
@@ -177,4 +183,14 @@ public class PhotoAlbumService {
         }
         return true;
     }
+
+    private boolean isValidFilename(String name) {
+        return pattern.matcher(name).matches();
+    }
+
+    private String reformatDate(String dateFromMetadata) {
+        LocalDateTime ldt = LocalDateTime.parse(dateFromMetadata, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        return ldt.format(formatter);
+    }
+
 }

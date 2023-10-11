@@ -9,7 +9,7 @@ public abstract class AbstractContainerBaseTest {
 
     // keine JUnit5-Annotationen! Sonst würde der Container nach jeder Test-Klasse abgeräumt,
     // aber für die nächste Klasse, die diese abstrakte Klasse erweitert, nicht neu gebaut.
-    static final MongoDBContainer mongodb = new MongoDBContainer(DockerImageName.parse("mongodb/mongodb-community-server:7.0.1-ubi8").asCompatibleSubstituteFor("mongo"));
+    private static final MongoDBContainer mongodb = new MongoDBContainer(DockerImageName.parse("mongodb/mongodb-community-server:7.0.1-ubi8").asCompatibleSubstituteFor("mongo"));
 
     static {
         mongodb.start();
