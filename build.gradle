@@ -15,7 +15,7 @@ version = '0.0.3-SNAPSHOT'
 
 dependencyManagement {
 	imports {
-		mavenBom 'org.testcontainers:testcontainers-bom:1.19.0'
+		mavenBom 'org.testcontainers:testcontainers-bom:1.19.1'
 	}
 }
 
