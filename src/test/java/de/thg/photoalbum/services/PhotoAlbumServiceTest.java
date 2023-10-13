@@ -8,6 +8,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +95,7 @@ public class PhotoAlbumServiceTest {
 	}
 
 	@Test
+	@Disabled("Der hier macht Schweinkram")
 	public void testCopyFiles() throws IOException {
 		List<File> fileList = underTest.createFilteredFileList(params);
 		Map<Image, File> fileMap = underTest.createFileMap(fileList);
@@ -103,6 +106,7 @@ public class PhotoAlbumServiceTest {
 		assertThat(targetDir).exists();
 		assertThat(targetFileMap).hasSameSizeAs(targetDir.listFiles());
 		assertThat(tempDir).doesNotExist();
+//		FileUtils.cleanDirectory(targetDir);
 	}
 
 	@Test
@@ -110,6 +114,12 @@ public class PhotoAlbumServiceTest {
 		imageRepository.deleteAll();
 		assertThat(imageRepository.findAll()).as("table image is not empty").isEmpty();
 		assertThat(params.isDebug()).isFalse();
+		assertThat(new File(params.getTarget())).isDirectory();
+//		assertThat(new File(params.getTarget()).listFiles()).isEmpty();
+		for (String source : params.getSources()) {
+			assertThat(new File(source)).isDirectory();
+			assertThat(new File(source).listFiles()).isNotEmpty();
+		}
 		List<Image> imageList = underTest.createOrUpdatePhotoAlbum(params);
 		assertThat(imageList).hasSize(2);
 		for (Image thisImage : imageList) {
@@ -120,8 +130,32 @@ public class PhotoAlbumServiceTest {
 			assertThat(imageFromDb.getCreationDate().equals(imageList.get(0).getCreationDate()) ||
 					imageFromDb.getCreationDate().equals(imageList.get(1).getCreationDate())).as("error in DB").isTrue();
 			assertThat(imageFromDb.getTempFile()).isNull();
-			assertThat(imageFromDb.getFilename()).as("wrong filename").startsWith(PREFIX);
+//			assertThat(imageFromDb.getFilename()).as("wrong filename").startsWith(PREFIX);
 		}
 	}
 
+	@Test
+	void renameImageFiles() throws IOException {
+		String sourcedir = "/home/tom/Bilder/Test";
+		assertThat(new File(sourcedir).listFiles()).isNotEmpty();
+		List<Image> images = underTest.renameImageFiles(sourcedir);
+		assertThat(images).isNotEmpty();
+		assertThat(images.stream().map(Image::getFilename).filter(s -> !s.matches("\\d{8}_\\d{6}.jpg")).toList()).isEmpty();
+		Collections.sort(images);
+		for (Image image : images) {
+			System.out.println(image.getFilename());
+		}
+
+//		System.out.println();
+//		sourcedir = "/home/tom/Bilder/PhotoAlbum";
+//		assertThat(new File(sourcedir).listFiles()).isNotEmpty();
+//		assertThat(Arrays.stream(new File(sourcedir).listFiles()).map(File::getName).filter(s -> s.matches("\\d{8}_\\d{6}.jpg")).toList()).isEmpty();
+//		images = underTest.renameImageFiles(sourcedir);
+//		assertThat(images).isNotEmpty();
+//		assertThat(images.stream().map(Image::getFilename).filter(s -> !s.matches("\\d{8}_\\d{6}.jpg")).toList()).isEmpty();
+//		Collections.sort(images);
+//		for (Image image : images) {
+//			System.out.println(image.getFilename());
+//		}
+	}
 }

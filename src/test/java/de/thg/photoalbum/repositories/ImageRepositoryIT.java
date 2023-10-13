@@ -5,14 +5,16 @@ import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class ImageRepositoryIT extends AbstractContainerBaseTest {
 
     @Inject
@@ -21,16 +23,16 @@ class ImageRepositoryIT extends AbstractContainerBaseTest {
     @BeforeEach
     void setup() {
         imageRepository.deleteAll();
-        Image image1 = new Image("Image_1", "Date_1");
-        Image image2 = new Image("Image_2", "Date_2");
+        Image image1 = new Image("Image_1", LocalDateTime.of(2023, 10, 13, 14, 30));
+        Image image2 = new Image("Image_2", LocalDateTime.of(2023, 10, 13, 14, 31));
         imageRepository.saveAll(List.of(image1, image2));
     }
 
     @Test
     void testFindImage() {
-        Optional<Image> image1 = imageRepository.findByFilename("Image_2");
-        assertThat(image1).isPresent();
-        assertThat(image1.get().getCreationDate()).isEqualTo("Date_2");
+        List<Image> image1 = imageRepository.findByFilename("Image_2");
+        assertThat(image1).isNotEmpty();
+        assertThat(image1.get(0).getCreationDate()).isEqualTo(LocalDateTime.of(2023, 10, 13, 14, 31));
     }
 
     @Test
@@ -42,10 +44,10 @@ class ImageRepositoryIT extends AbstractContainerBaseTest {
     @Test
     void saveImage() {
         assertThat(imageRepository.findAll()).hasSize(2);
-        Image image = new Image("", "3");
+        Image image = new Image("", LocalDateTime.of(2023, 10, 13, 14, 32));
         Image savedImage = imageRepository.save(image);
         assertThat(savedImage.getId()).isNotNull();
-        assertThat(savedImage.getCreationDate()).isEqualTo("3");
+        assertThat(savedImage.getCreationDate()).isEqualTo(LocalDateTime.of(2023, 10, 13, 14, 32));
         assertThat(imageRepository.findAll()).hasSize(3);
         assertThat(imageRepository.findAll()).contains(savedImage);
         assertThat(savedImage).isSameAs(image);
@@ -53,13 +55,13 @@ class ImageRepositoryIT extends AbstractContainerBaseTest {
 
     @Test
     void updateImage() {
-        Image image = new Image("Image_3", "Date_3");
+        Image image = new Image("Image_3", LocalDateTime.of(2023, 10, 13, 14, 32));
         assertThat(image.getId()).isNull();
         imageRepository.save(image);
         String imageId = image.getId();
         assertThat(imageId).isNotNull();
         assertThat(imageRepository.findAll()).hasSize(3);
-        image.setCreationDate("Date_3.1");
+        image.setCreationDate(LocalDateTime.of(2023, 10, 13, 14, 32,1));
         imageRepository.save(image);
         assertThat(imageRepository.findAll()).hasSize(3);
         assertThat(image.getId()).isEqualTo(imageId);

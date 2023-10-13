@@ -12,6 +12,7 @@ public interface ImageRepository extends MongoRepository<Image, String> {
 
     List<Image> findByFilenameStartingWith(String name);
 
-    Optional<Image>  findByFilename(String name);
+    List<Image> findByFilename(String name);
 
+    Optional<Image> findFirstByFilename(String filename);
 }

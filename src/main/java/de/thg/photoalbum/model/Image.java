@@ -17,11 +17,12 @@ public class Image implements Comparable<Image> {
 
     @Id
     @Getter
+    @Setter
     private String id;
 
     @Getter
     @Setter
-    private String creationDate;
+    private LocalDateTime creationDate;
 
     @Getter
     @Setter
@@ -49,7 +50,7 @@ public class Image implements Comparable<Image> {
 
     }
 
-    public Image(String filename, String creationDate) {
+    public Image(String filename, LocalDateTime creationDate) {
         this.filename = filename;
         this.creationDate = creationDate;
     }
