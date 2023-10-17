@@ -139,12 +139,7 @@ public class PhotoAlbumService {
         FileUtils.forceDeleteOnExit(tempDir);
         int count = START_COUNT;
         for (Map.Entry<Image, File> entry : fileMap.entrySet()) {
-            // new Filename: yyyyMMdd_HHmmss
-            if(isValidFilename(entry.getKey().getFilename())) {
-                continue;
-            }
-            String filename = localDateTimeConverter.toFilename(entry.getKey().getCreationDate());
-//            String filename = getFilename(count);
+            String filename = PREFIX + df.format(count) + "." + EXTENSION;
             File newFileInTempDir = new File(tempDir, filename);
             entry.getKey().setFilename(filename);
             entry.getKey().setLastModified(LocalDateTime.now());

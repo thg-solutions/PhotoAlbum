@@ -45,7 +45,7 @@ public class PhotoAlbumServiceTest {
 	@Inject
 	private ImageRepository imageRepository;
 
-	@Value("${photoalbum.prefix}")
+	@Value("${photoalbum.prefix:jpg}")
 	private String PREFIX;
 
 	@BeforeAll
@@ -95,7 +95,6 @@ public class PhotoAlbumServiceTest {
 	}
 
 	@Test
-	@Disabled("Der hier macht Schweinkram")
 	public void testCopyFiles() throws IOException {
 		List<File> fileList = underTest.createFilteredFileList(params);
 		Map<Image, File> fileMap = underTest.createFileMap(fileList);
@@ -106,7 +105,6 @@ public class PhotoAlbumServiceTest {
 		assertThat(targetDir).exists();
 		assertThat(targetFileMap).hasSameSizeAs(targetDir.listFiles());
 		assertThat(tempDir).doesNotExist();
-//		FileUtils.cleanDirectory(targetDir);
 	}
 
 	@Test
@@ -130,11 +128,12 @@ public class PhotoAlbumServiceTest {
 			assertThat(imageFromDb.getCreationDate().equals(imageList.get(0).getCreationDate()) ||
 					imageFromDb.getCreationDate().equals(imageList.get(1).getCreationDate())).as("error in DB").isTrue();
 			assertThat(imageFromDb.getTempFile()).isNull();
-//			assertThat(imageFromDb.getFilename()).as("wrong filename").startsWith(PREFIX);
+			assertThat(imageFromDb.getFilename()).as("wrong filename").startsWith(PREFIX);
 		}
 	}
 
 	@Test
+	@Disabled
 	void renameImageFiles() throws IOException {
 		String sourcedir = "/home/tom/Bilder/Test";
 		assertThat(new File(sourcedir).listFiles()).isNotEmpty();
