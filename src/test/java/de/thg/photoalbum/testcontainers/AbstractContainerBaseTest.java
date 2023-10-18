@@ -22,5 +22,6 @@ public abstract class AbstractContainerBaseTest {
     // öfter als nötig. System.setProperty(...) im static-Block wäre eine Alternative.
     static void setProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.port", mongodb::getFirstMappedPort);
+        registry.add("spring.data.mongodb.host", mongodb::getHost);
     }
 }
