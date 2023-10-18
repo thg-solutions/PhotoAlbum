@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 @Service
 public class PhotoAlbumService {
 
-    private Tika tika;
+    private final Tika tika;
 
     @Inject
     public PhotoAlbumService(@Qualifier("metadata-extractor") ImageMetadataReader imageMetadataReader, ImageRepository imageRepository, LocalDateTimeConverter localDateTimeConverter) {
@@ -123,7 +123,7 @@ public class PhotoAlbumService {
             Image image = imageMetadataReader.readImageMetadata(new FileInputStream(file), file.getName());
             if (image != null) {
                 if (fileMap.containsKey(image)) {
-                    LOGGER.debug("duplicate timestamp: {0} - {1}", file, fileMap.get(image));
+                    LOGGER.debug("duplicate timestamp: {} - {}", file, fileMap.get(image));
                 } else {
                     fileMap.put(image, file);
                 }
@@ -182,11 +182,11 @@ public class PhotoAlbumService {
     private boolean isJpg(File imageFile) {
         try {
             if (!"image/jpeg".equals(tika.detect(imageFile))) {
-                LOGGER.info("{0} is not a JPEG.", imageFile.getAbsolutePath());
+                LOGGER.info("{} is not a JPEG.", imageFile.getAbsolutePath());
                 return false;
             }
         } catch (IOException e) {
-            LOGGER.error("{0} is not readable.", imageFile.getAbsolutePath());
+            LOGGER.error("{} is not readable.", imageFile.getAbsolutePath());
             return false;
         }
         return true;
@@ -207,7 +207,7 @@ public class PhotoAlbumService {
     private List<Image> renameImageFiles(String sourcePath) throws IOException {
         List<Image> result = new ArrayList<>();
         Path path = Paths.get(sourcePath);
-        for (File file : path.toFile().listFiles(this::isJpg)) {
+        for (File file : Objects.requireNonNull(path.toFile().listFiles(this::isJpg))) {
             Optional<Image> image = analyseImage(new FileInputStream(file), file.getName());
             if(image.isPresent()) {
                 Image thisImage = image.get();
@@ -226,9 +226,7 @@ public class PhotoAlbumService {
     private void saveOrUpdateImages(List<Image> images) {
         for (Image image : images) {
             Optional<Image> imageInDb = imageRepository.findFirstByFilename(image.getFilename());
-            if(imageInDb.isPresent()) {
-                image.setId(imageInDb.get().getId());
-            }
+            imageInDb.ifPresent(value -> image.setId(value.getId()));
             imageRepository.save(image);
         }
     }
