@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest
 @ActiveProfiles("test")
-public class PhotoAlbumServiceTest {
+public class PhotoAlbumServiceIT {
 
 	private static Path sourcepath1;
 	private static Path sourcepath2;
@@ -55,8 +55,8 @@ public class PhotoAlbumServiceTest {
 		sourcepath2 = Files.createTempDirectory("source2_");
 		File destFile1 = new File(sourcepath1.toFile(), "PHOTO0021.JPG");
 		File destFile2 = new File(sourcepath2.toFile(), "PHOTO0083.JPG");
-		Files.copy(PhotoAlbumServiceTest.class.getResourceAsStream("/testdata/PHOTO0021.JPG"), destFile1.toPath());
-		Files.copy(PhotoAlbumServiceTest.class.getResourceAsStream("/testdata/PHOTO0083.JPG"), destFile2.toPath());
+		Files.copy(PhotoAlbumServiceIT.class.getResourceAsStream("/testdata/PHOTO0021.JPG"), destFile1.toPath());
+		Files.copy(PhotoAlbumServiceIT.class.getResourceAsStream("/testdata/PHOTO0083.JPG"), destFile2.toPath());
 
 	}
 
