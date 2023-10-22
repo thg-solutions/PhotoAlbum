@@ -1,10 +1,12 @@
 package de.thg.photoalbum.testcontainers;
 
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
 
+@ActiveProfiles("test")
 public abstract class AbstractContainerBaseTest {
 
     // keine JUnit5-Annotationen! Sonst würde der Container nach jeder Test-Klasse abgeräumt,

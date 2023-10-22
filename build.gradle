@@ -44,6 +44,7 @@ dependencies {
 
 java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+	toolchain.vendor.set(JvmVendorSpec.ORACLE)
 }
 
 test {
@@ -62,7 +63,7 @@ task integrationTest(type: Test) {
 //	reports.junitXml.outputLocation = file("$reports.junitXml.destination/integration")
 }
 
-// check.dependsOn(integrationTest)
+check.dependsOn(integrationTest)
 
 jacocoTestReport {
 	reports {
