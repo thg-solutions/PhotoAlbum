@@ -34,5 +34,7 @@ jobs:
       with:
         arguments: build
 
+    - run: cat /home/runner/work/PhotoAlbum/PhotoAlbum/build/reports/tests/integrationTest/index.html
+
     - name: Standby for debugging
       uses: mxschmitt/action-tmate@v3
