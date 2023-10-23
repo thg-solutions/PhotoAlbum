@@ -22,13 +22,13 @@ jobs:
         java-version: '17'
         distribution: 'oracle'
 
-    - name: Standby for debugging
-      uses: mxschmitt/action-tmate@v3
-
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.1
 
     - name: Run build with Gradle wrapper
       id: gradle
-      run: ./gradlew build --scan
+      run: ./gradlew build --scan --continue
+
+    - name: Standby for debugging
+      uses: mxschmitt/action-tmate@v3
 
