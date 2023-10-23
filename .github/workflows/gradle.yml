@@ -31,10 +31,10 @@ jobs:
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.1
-      with:
-        arguments: build
 
-    - run: cat /home/runner/work/PhotoAlbum/PhotoAlbum/build/reports/tests/integrationTest/index.html
+    - name: Run build with Gradle wrapper
+      id: gradle
+      run: ./gradlew build --scan
 
     - name: Standby for debugging
       uses: mxschmitt/action-tmate@v3

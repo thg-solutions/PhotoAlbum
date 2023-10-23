@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.util.Assert;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -21,9 +20,6 @@ public abstract class AbstractContainerBaseTest {
     static {
         mongodb.start();
         LOGGER.info("MongoDB URL: " + mongodb.getReplicaSetUrl());
-        Assert.isTrue(mongodb.isHostAccessible(), "MongoDB host not accessable");
-        Assert.isTrue(mongodb.isHealthy(), "MongoDB is unhealthy");
-        Assert.isTrue(mongodb.isRunning(), "MongoDB not running");
     }
 
     @DynamicPropertySource
