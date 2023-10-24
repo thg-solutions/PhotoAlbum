@@ -3,6 +3,8 @@ package de.thg.photoalbum.testcontainers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -17,17 +19,15 @@ public abstract class AbstractContainerBaseTest {
 
     static {
         mongodb.start();
-        LOGGER.info("MongoDB URL: " + mongodb.getReplicaSetUrl());
-        System.setProperty("spring.data.mongodb.port", String.valueOf(mongodb.getFirstMappedPort()));
+        LOGGER.info("MongoDB Port: " + mongodb.getReplicaSetUrl());
     }
 
-//    @DynamicPropertySource
+    @DynamicPropertySource
     // ist eigens dafür da, Properties dynamisch erst dann zu setzen, wenn sie bekannt sind,
     // also nach dem Start eines Containers. Es ist unklar, wann oder wie oft das genau passiert,
     // aber die empfohlene Annotation @BeforeAll wird auch einmal pro Test-Klasse aufgerufen, also
     // öfter als nötig. System.setProperty(...) im static-Block wäre eine Alternative.
-//    static void setProperties(DynamicPropertyRegistry registry) {
-//        registry.add("spring.data.mongodb.port", mongodb::getFirstMappedPort);
-//        registry.add("spring.data.mongodb.host", mongodb::getHost);
-//    }
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", mongodb::getReplicaSetUrl);
+    }
 }
