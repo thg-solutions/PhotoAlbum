@@ -1,5 +1,6 @@
 package de.thg.photoalbum;
 
+import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,8 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = PhotoAlbumApplication.class)
 @AutoConfigureMockMvc
-@ActiveProfiles("tc")
-public class PhotoAlbumAppIT {
+public class PhotoAlbumAppIT extends AbstractContainerBaseTest {
 
     @LocalServerPort
     private int ports;

@@ -13,11 +13,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Sql(scripts = "file:src/main/resources/db/migration/V1__create_image_table.sql",
-        statements = {"insert into image (creation_date, filename, version) values (\'Date_1\', \'Image_1\', 0)",
+@Sql(statements = {"insert into image (creation_date, filename, version) values (\'Date_1\', \'Image_1\', 0)",
         "insert into image (creation_date, filename, version) values (\'Date_2\', \'Image_2\', 0)"})
 @SpringBootTest
-class ImageRepositoryTest extends AbstractContainerBaseTest {
+class ImageRepositoryIT extends AbstractContainerBaseTest {
 
     @Inject
     ImageRepository imageRepository;

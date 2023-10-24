@@ -13,6 +13,7 @@ public abstract class AbstractContainerBaseTest {
                 .withUsername("tom")
                 .withPassword("tom")
                 .withDatabaseName("photoalbum");
+        postgres.withInitScript("db/migration/V1__create_image_table.sql");
         postgres.start();
     }
 
