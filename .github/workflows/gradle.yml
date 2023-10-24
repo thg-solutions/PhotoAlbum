@@ -29,6 +29,3 @@ jobs:
       id: gradle
       run: ./gradlew build --scan --continue
 
-    - name: Standby for debugging
-      uses: mxschmitt/action-tmate@v3
-
