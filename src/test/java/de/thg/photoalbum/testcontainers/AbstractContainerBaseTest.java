@@ -19,6 +19,5 @@ public abstract class AbstractContainerBaseTest {
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
-//        registry.add("spring.data.mongodb.host", mongodb::getHost);
     }
 }
