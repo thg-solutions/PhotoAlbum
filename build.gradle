@@ -51,8 +51,8 @@ test {
 	useJUnitPlatform()
 	exclude '**/*IT.class'
 //	project.buildDir
-	reports.html.outputLocation = file("$reports.html.destination/unit")
-	reports.junitXml.outputLocation = file("$reports.junitXml.destination/unit")
+	reports.html.outputLocation = file("$reports.html.outputLocation/unit")
+	reports.junitXml.outputLocation = file("$reports.junitXml.outputLocation/unit")
 }
 
 task integrationTest(type: Test) {
@@ -67,7 +67,7 @@ check.dependsOn(integrationTest)
 
 jacocoTestReport {
 	reports {
-		xml.enabled true
+		xml.required
 	}
 	dependsOn test
 }
