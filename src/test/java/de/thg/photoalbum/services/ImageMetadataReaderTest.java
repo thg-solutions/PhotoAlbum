@@ -1,6 +1,7 @@
 package de.thg.photoalbum.services;
 
 import de.thg.photoalbum.model.Image;
+import de.thg.photoalbum.util.LocalDateTimeConverter;
 import org.apache.tika.Tika;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,15 +56,20 @@ class ImageMetadataReaderTest {
     static class TestConfiguration {
 
         @Bean
+        public LocalDateTimeConverter localDateTimeConverter() {
+            return new LocalDateTimeConverter();
+        }
+
+        @Bean
         @Qualifier("apache-imaging")
         public ApacheImageReader apacheImageReader() {
-            return new ApacheImageReader();
+            return new ApacheImageReader(localDateTimeConverter());
         }
 
         @Bean
         @Qualifier("metadata-extractor")
         public MetadataExtractorReader metadataExtractorReader() {
-            return new MetadataExtractorReader();
+            return new MetadataExtractorReader(localDateTimeConverter());
         }
     }
 }

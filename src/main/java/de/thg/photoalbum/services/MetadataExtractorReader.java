@@ -9,10 +9,12 @@ import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifReader;
 import com.drew.metadata.exif.GpsDirectory;
 import de.thg.photoalbum.model.Image;
+import de.thg.photoalbum.util.LocalDateTimeConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -22,6 +24,14 @@ public class MetadataExtractorReader implements ImageMetadataReader {
 
     private static final Logger LOGGER = LogManager.getLogger(MetadataExtractorReader.class);
 
+    private LocalDateTimeConverter localDateTimeConverter;
+
+    @Inject
+    public MetadataExtractorReader(LocalDateTimeConverter localDateTimeConverter) {
+        this.localDateTimeConverter = localDateTimeConverter;
+    }
+
+
     @Override
     public Image readImageMetadata(InputStream inputStream, String originalName) {
         Image image = new Image();
@@ -29,7 +39,7 @@ public class MetadataExtractorReader implements ImageMetadataReader {
         try (inputStream) {
             Metadata metadata = JpegMetadataReader.readMetadata(inputStream, Arrays.asList(new ExifReader()));
             Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-            image.setCreationDate(directory.getDescription(ExifIFD0Directory.TAG_DATETIME));
+            image.setCreationDate(localDateTimeConverter.toLocalDateTime(directory.getDescription(ExifIFD0Directory.TAG_DATETIME)));
             GpsDirectory gpsDirectory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
             if (gpsDirectory != null) {
                 GeoLocation geoLocation = gpsDirectory.getGeoLocation();

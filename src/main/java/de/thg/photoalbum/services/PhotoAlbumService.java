@@ -2,6 +2,8 @@ package de.thg.photoalbum.services;
 
 import de.thg.photoalbum.model.AlbumParams;
 import de.thg.photoalbum.model.Image;
+import de.thg.photoalbum.repositories.ImageRepository;
+import de.thg.photoalbum.util.LocalDateTimeConverter;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +17,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,29 +31,39 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 @Service
 public class PhotoAlbumService {
 
-    private Tika tika;
+    private final Tika tika;
 
     @Inject
-    public PhotoAlbumService(@Qualifier("metadata-extractor") ImageMetadataReader imageMetadataReader) {
+    public PhotoAlbumService(@Qualifier("metadata-extractor") ImageMetadataReader imageMetadataReader, ImageRepository imageRepository, LocalDateTimeConverter localDateTimeConverter) {
         this.imageMetadataReader = imageMetadataReader;
+        this.imageRepository = imageRepository;
+        this.localDateTimeConverter = localDateTimeConverter;
         tika = new Tika();
     }
 
     private static final Logger LOGGER = LogManager.getLogger(PhotoAlbumService.class);
 
+    private static final Pattern pattern = Pattern.compile("\\d{8}_\\d{6}.jpg");
+    private static final DecimalFormat df = new DecimalFormat("0000");
+
+
     private final ImageMetadataReader imageMetadataReader;
 
-    @Value("${photoalbum.extension}")
+    private final ImageRepository imageRepository;
+    private final LocalDateTimeConverter localDateTimeConverter;
+
+    @Value("${photoalbum.extension:jpg}")
     private String EXTENSION;
 
-    @Value("${photoalbum.prefix}")
+    @Value("${photoalbum.prefix:PHOTO}")
     private String PREFIX;
 
-    @Value("${photoalbum.start.count}")
+    @Value("${photoalbum.start.count:1}")
     private int START_COUNT;
 
     public List<Image> createOrUpdatePhotoAlbum(AlbumParams albumParams) {
@@ -107,7 +123,7 @@ public class PhotoAlbumService {
             Image image = imageMetadataReader.readImageMetadata(new FileInputStream(file), file.getName());
             if (image != null) {
                 if (fileMap.containsKey(image)) {
-                    LOGGER.debug("duplicate timestamp: {0} - {1}", file, fileMap.get(image));
+                    LOGGER.debug("duplicate timestamp: {} - {}", file, fileMap.get(image));
                 } else {
                     fileMap.put(image, file);
                 }
@@ -122,9 +138,7 @@ public class PhotoAlbumService {
         tempDir.mkdir();
         FileUtils.forceDeleteOnExit(tempDir);
         int count = START_COUNT;
-        DecimalFormat df = new DecimalFormat("0000");
         for (Map.Entry<Image, File> entry : fileMap.entrySet()) {
-            // new Filename: yyyyMMdd_HHmmss
             String filename = PREFIX + df.format(count) + "." + EXTENSION;
             File newFileInTempDir = new File(tempDir, filename);
             entry.getKey().setFilename(filename);
@@ -168,13 +182,52 @@ public class PhotoAlbumService {
     private boolean isJpg(File imageFile) {
         try {
             if (!"image/jpeg".equals(tika.detect(imageFile))) {
-                LOGGER.info("{0} is not a JPEG.", imageFile.getAbsolutePath());
+                LOGGER.info("{} is not a JPEG.", imageFile.getAbsolutePath());
                 return false;
             }
         } catch (IOException e) {
-            LOGGER.error("{0} is not readable.", imageFile.getAbsolutePath());
+            LOGGER.error("{} is not readable.", imageFile.getAbsolutePath());
             return false;
         }
         return true;
+    }
+
+    private boolean isValidFilename(String name) {
+        return pattern.matcher(name).matches();
+    }
+
+    public List<Image> renameImageFiles(String... sourcePaths) throws IOException {
+        List<Image> result = new ArrayList<>();
+        for (String sourcePath : sourcePaths) {
+            result.addAll(renameImageFiles(sourcePath));
+        }
+        return result;
+    }
+
+    private List<Image> renameImageFiles(String sourcePath) throws IOException {
+        List<Image> result = new ArrayList<>();
+        Path path = Paths.get(sourcePath);
+        for (File file : Objects.requireNonNull(path.toFile().listFiles(this::isJpg))) {
+            Optional<Image> image = analyseImage(new FileInputStream(file), file.getName());
+            if(image.isPresent()) {
+                Image thisImage = image.get();
+                if(!isValidFilename(thisImage.getFilename())) {
+                    thisImage.setFilename(localDateTimeConverter.toFilename(thisImage.getCreationDate()));
+                    Files.move(file.toPath(), file.toPath().resolveSibling(thisImage.getFilename()), StandardCopyOption.REPLACE_EXISTING);
+                }
+                thisImage.setLastModified(LocalDateTime.now());
+                result.add(thisImage);
+            }
+        }
+        saveOrUpdateImages(result);
+        return result;
+    }
+
+    private void saveOrUpdateImages(List<Image> images) {
+        for (Image image : images) {
+            Optional<Image> imageInDb = imageRepository.findFirstByFilename(image.getFilename());
+            imageInDb.ifPresent(value -> image.setId(value.getId()));
+            imageRepository.save(image);
+        }
     }
 }

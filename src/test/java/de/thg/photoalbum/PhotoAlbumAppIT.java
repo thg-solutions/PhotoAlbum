@@ -20,15 +20,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PhotoAlbumAppIT extends AbstractContainerBaseTest {
 
     @LocalServerPort
-    private int ports;
+    private int port;
 
     @Autowired
     private MockMvc mvc;
 
     @BeforeEach
     void setUp() {
-        RestAssured.baseURI = "http://localhost/photoalbum";
-        RestAssured.port = ports;
+
+        RestAssured.baseURI = "http://localhost/";
+        RestAssured.port = port;
     }
 
     @AfterEach

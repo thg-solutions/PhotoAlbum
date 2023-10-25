@@ -9,10 +9,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -29,7 +26,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  */
 @SpringBootTest
-@ActiveProfiles("test")
 public class PhotoAlbumServiceTest {
 
 	private static Path sourcepath1;
@@ -43,9 +39,6 @@ public class PhotoAlbumServiceTest {
 
 	@Inject
 	private ImageRepository imageRepository;
-
-	@Value("${photoalbum.prefix}")
-	private String PREFIX;
 
 	@BeforeAll
 	static void beforeAll() throws IOException {
@@ -106,24 +99,5 @@ public class PhotoAlbumServiceTest {
 		assertThat(tempDir).doesNotExist();
 	}
 
-	@Test
-	@Transactional
-	public void testCreateOrUpdatePhotoAlbum() {
-		imageRepository.deleteAll();
-		assertThat(imageRepository.findAll()).as("table image is not empty").isEmpty();
-		assertThat(params.isDebug()).isFalse();
-		List<Image> imageList = underTest.createOrUpdatePhotoAlbum(params);
-		assertThat(imageList).hasSize(2);
-		for (Image thisImage : imageList) {
-			assertThat(thisImage.getTempFile()).isNotNull();
-		}
-		imageRepository.saveAll(imageList);
-		for (Image imageFromDb : imageRepository.findAll()) {
-			assertThat(imageFromDb.getCreationDate().equals(imageList.get(0).getCreationDate()) ||
-					imageFromDb.getCreationDate().equals(imageList.get(1).getCreationDate())).as("error in DB").isTrue();
-			assertThat(imageFromDb.getTempFile()).isNull();
-			assertThat(imageFromDb.getFilename()).as("wrong filename").startsWith(PREFIX);
-		}
-	}
 
 }

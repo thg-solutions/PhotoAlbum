@@ -1,29 +1,28 @@
 package de.thg.photoalbum.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
-import jakarta.persistence.Version;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import java.io.File;
 import java.time.LocalDateTime;
 
-@Entity
-@EqualsAndHashCode(exclude = "version")
-@ToString(exclude = "version")
+@EqualsAndHashCode
+@ToString
 public class Image implements Comparable<Image> {
 
     @Id
-    @Column(columnDefinition = "varchar(32)")
     @Getter
     @Setter
-    private String creationDate;
+    private String id;
+
+    @Getter
+    @Setter
+    private LocalDateTime creationDate;
 
     @Getter
     @Setter
@@ -37,19 +36,24 @@ public class Image implements Comparable<Image> {
     @Setter
     private LocalDateTime lastModified;
 
-    @Column(columnDefinition = "varchar(32)")
     @Getter
     @Setter
     private String filename;
-
-    @Version
-    private long version;
 
     @Transient
     @JsonIgnore
     @Getter
     @Setter
     private File tempFile;
+
+    public Image() {
+
+    }
+
+    public Image(String filename, LocalDateTime creationDate) {
+        this.filename = filename;
+        this.creationDate = creationDate;
+    }
 
     @Override
     public int compareTo(Image o) {

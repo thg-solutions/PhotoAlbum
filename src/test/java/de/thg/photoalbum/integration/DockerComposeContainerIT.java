@@ -19,7 +19,6 @@ public class DockerComposeContainerIT {
     public static ComposeContainer composeContainer =
             new ComposeContainer(new File("src/main/resources/compose.yaml"))
                     .withExposedService("photoalbum-1", 8080);
-//                    .withLocalCompose(true);
 
     private String host;
     private int port;

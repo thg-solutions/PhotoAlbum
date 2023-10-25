@@ -75,6 +75,16 @@ public class PhotoAlbumController {
         }
     }
 
+    @PostMapping("renameImages")
+    ResponseEntity<List<Image>> renameImages(@RequestParam("directories") String[] directoriy) throws IOException {
+        List<Image> result = service.renameImageFiles(directoriy);
+        if (!result.isEmpty()) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> handleFileNotFound() {
         return ResponseEntity.notFound().build();
