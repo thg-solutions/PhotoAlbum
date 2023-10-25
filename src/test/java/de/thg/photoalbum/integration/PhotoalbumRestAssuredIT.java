@@ -23,6 +23,7 @@ public class PhotoalbumRestAssuredIT extends AbstractContainerBaseTest {
     void setUp() {
         RestAssured.baseURI = "http://localhost/";
         RestAssured.port = port;
+
     }
 
     @Test
