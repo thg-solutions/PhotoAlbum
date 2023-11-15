@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.1] - 2023-11-15
+
+### Changed
+
+- upgraded testcontainers from 1.19.1 to 1.19.2
+
 
 ## [1.1.0] - 2023-10-25
 
