@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '3.2.1'
+	id 'org.springframework.boot' version '3.2.1' apply false
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'java-library'
 	id "org.flywaydb.flyway" version "10.4.1"
@@ -15,21 +15,22 @@ version = '0.0.4-SNAPSHOT'
 
 dependencyManagement {
 	imports {
+		mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
 		mavenBom 'org.testcontainers:testcontainers-bom:1.19.3'
 	}
 }
 
 dependencies {
 
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	api 'org.springframework.boot:spring-boot-starter-web'
+	api 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0"
 	runtimeOnly 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 
 	implementation 'com.drewnoakes:metadata-extractor:2.19.0'
 	implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
 	implementation 'org.apache.tika:tika-core:2.9.1'
-	implementation 'org.owasp:dependency-check-gradle:9.0.6'
+	api 'org.owasp:dependency-check-gradle:9.0.6'
 	runtimeOnly 'org.mongodb:mongodb-driver-sync:4.11.1'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -47,23 +48,37 @@ java {
 	toolchain.vendor.set(JvmVendorSpec.ORACLE)
 }
 
-test {
-	useJUnitPlatform()
-	exclude '**/*IT.class'
-//	project.buildDir
-	reports.html.outputLocation = file("$reports.html.outputLocation/unit")
-	reports.junitXml.outputLocation = file("$reports.junitXml.outputLocation/unit")
+testing {
+	suites {
+
+		test {
+			useJUnitJupiter()
+		}
+
+		integrationTest(JvmTestSuite) {
+			dependencies {
+				implementation project()
+				implementation 'org.springframework.boot:spring-boot-starter-test'
+				implementation 'org.testcontainers:testcontainers'
+				implementation 'org.testcontainers:junit-jupiter'
+				implementation 'org.testcontainers:mongodb'
+				implementation 'io.rest-assured:rest-assured:5.4.0'
+			}
+
+			targets {
+				all {
+					testTask.configure {
+						shouldRunAfter(test)
+					}
+				}
+			}
+		}
+	}
 }
 
-task integrationTest(type: Test) {
-	useJUnitPlatform()
-	include '**/*IT.class'
-	exclude '**/DockerComposeContainerIT.class'
-//	reports.html.outputLocation = file("$reports.html.destination/integration")
-//	reports.junitXml.outputLocation = file("$reports.junitXml.destination/integration")
+tasks.named('check') {
+	dependsOn(testing.suites.integrationTest)
 }
-
-//check.dependsOn(integrationTest)
 
 jacocoTestReport {
 	reports {

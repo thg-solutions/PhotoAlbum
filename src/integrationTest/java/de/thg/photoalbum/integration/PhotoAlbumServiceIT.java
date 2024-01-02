@@ -4,7 +4,6 @@ import de.thg.photoalbum.model.AlbumParams;
 import de.thg.photoalbum.model.Image;
 import de.thg.photoalbum.repositories.ImageRepository;
 import de.thg.photoalbum.services.PhotoAlbumService;
-import de.thg.photoalbum.services.PhotoAlbumServiceTest;
 import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
@@ -50,8 +49,8 @@ public class PhotoAlbumServiceIT extends AbstractContainerBaseTest {
         sourcepath2 = Files.createTempDirectory("source2_");
         File destFile1 = new File(sourcepath1.toFile(), "PHOTO0021.JPG");
         File destFile2 = new File(sourcepath2.toFile(), "PHOTO0083.JPG");
-        Files.copy(PhotoAlbumServiceTest.class.getResourceAsStream("/testdata/PHOTO0021.JPG"), destFile1.toPath());
-        Files.copy(PhotoAlbumServiceTest.class.getResourceAsStream("/testdata/PHOTO0083.JPG"), destFile2.toPath());
+        Files.copy(PhotoAlbumServiceIT.class.getResourceAsStream("/testdata/PHOTO0021.JPG"), destFile1.toPath());
+        Files.copy(PhotoAlbumServiceIT.class.getResourceAsStream("/testdata/PHOTO0083.JPG"), destFile2.toPath());
     }
 
     @AfterAll

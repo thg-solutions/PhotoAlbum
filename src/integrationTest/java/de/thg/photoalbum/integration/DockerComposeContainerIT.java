@@ -2,6 +2,7 @@ package de.thg.photoalbum.integration;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.testcontainers.containers.ComposeContainer;
@@ -13,6 +14,7 @@ import java.io.File;
 import static io.restassured.RestAssured.given;
 
 @Testcontainers
+@Disabled
 public class DockerComposeContainerIT {
 
     @Container
