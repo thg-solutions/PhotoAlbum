@@ -48,7 +48,7 @@ public class PhotoAlbumController {
     }
 
     @GetMapping("/photos/search/creationdate")
-    public ResponseEntity<Image> getImageByCreationDate(@RequestParam String creationDate) {
+    public ResponseEntity<Image> getImageByCreationDate(@RequestParam("creationDate") String creationDate) {
         Optional<Image> result = imageRepository.findById(creationDate);
         if(result.isPresent()) {
             return ResponseEntity.ok(result.get());
