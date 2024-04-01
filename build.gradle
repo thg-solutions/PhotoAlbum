@@ -30,7 +30,7 @@ dependencies {
 	implementation 'com.drewnoakes:metadata-extractor:2.19.0'
 	implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
 	implementation 'org.apache.tika:tika-core:2.9.1'
-	api 'org.owasp:dependency-check-gradle:9.0.10'
+	api 'org.owasp:dependency-check-gradle:9.1.0'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
