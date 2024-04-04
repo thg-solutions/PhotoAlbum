@@ -28,7 +28,7 @@ dependencies {
 	runtimeOnly 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 
 	implementation 'com.drewnoakes:metadata-extractor:2.19.0'
-	implementation 'org.apache.commons:commons-imaging:1.0-alpha3'
+	implementation 'org.apache.commons:commons-imaging:1.0.0-alpha4'
 	implementation 'org.apache.tika:tika-core:2.9.2'
 	api 'org.owasp:dependency-check-gradle:9.1.0'
 
