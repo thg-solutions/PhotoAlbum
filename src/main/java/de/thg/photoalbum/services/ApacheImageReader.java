@@ -2,7 +2,6 @@ package de.thg.photoalbum.services;
 
 import de.thg.photoalbum.model.Image;
 import de.thg.photoalbum.util.LocalDateTimeConverter;
-import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.ImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
@@ -36,15 +35,15 @@ public class ApacheImageReader implements ImageMetadataReader {
             ImageMetadata metadata = Imaging.getMetadata(fileInputStream, originalName);
 
             if (metadata instanceof JpegImageMetadata jpegMetadata) {
-                image.setCreationDate(localDateTimeConverter.toLocalDateTime(jpegMetadata.findEXIFValueWithExactMatch(TiffTagConstants.TIFF_TAG_DATE_TIME)
+                image.setCreationDate(localDateTimeConverter.toLocalDateTime(jpegMetadata.findExifValueWithExactMatch(TiffTagConstants.TIFF_TAG_DATE_TIME)
                             .getValue().toString()));
-                if (null != jpegMetadata.getExif() && null != jpegMetadata.getExif().getGPS()) {
-                    TiffImageMetadata.GPSInfo gpsInfo = jpegMetadata.getExif().getGPS();
+                if (null != jpegMetadata.getExif() && null != jpegMetadata.getExif().getGpsInfo()) {
+                    TiffImageMetadata.GpsInfo gpsInfo = jpegMetadata.getExif().getGpsInfo();
                     image.setLongitude(gpsInfo.getLongitudeAsDegreesEast());
                     image.setLatitude(gpsInfo.getLatitudeAsDegreesNorth());
                 }
             }
-        } catch (ImageReadException | IOException e) {
+        } catch (IOException e) {
             LOGGER.error("error handling image", e);
             return null;
         }
