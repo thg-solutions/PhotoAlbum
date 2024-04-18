@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'de.thg'
-version = '0.0.4-SNAPSHOT'
+version = '0.0.5-SNAPSHOT'
 
 dependencyManagement {
 	imports {
