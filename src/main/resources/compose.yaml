@@ -12,7 +12,7 @@ services:
     expose:
       - "27017"
   photoalbum:
-    image: photoalbum:0.0.4-SNAPSHOT
+    image: photoalbum:0.0.5-SNAPSHOT
     environment:
       DB_HOST: mongodb
     ports:

@@ -38,6 +38,9 @@ public class MetadataExtractorReader implements ImageMetadataReader {
         image.setFilename(originalName);
         try (inputStream) {
             Metadata metadata = JpegMetadataReader.readMetadata(inputStream, Arrays.asList(new ExifReader()));
+            if(metadata.getDirectoryCount() == 0) {
+                return null;
+            }
             Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
             image.setCreationDate(localDateTimeConverter.toLocalDateTime(directory.getDescription(ExifIFD0Directory.TAG_DATETIME)));
             GpsDirectory gpsDirectory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
