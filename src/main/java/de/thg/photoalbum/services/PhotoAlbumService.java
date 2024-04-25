@@ -207,7 +207,9 @@ public class PhotoAlbumService {
     private List<Image> renameImageFiles(String sourcePath) throws IOException {
         List<Image> result = new ArrayList<>();
         Path path = Paths.get(sourcePath);
+        LOGGER.info("Path {} is {}a directory" , path.toString(), path.toFile().isDirectory() ? "" : "not ");
         for (File file : Objects.requireNonNull(path.toFile().listFiles(this::isJpg))) {
+            LOGGER.debug("File: {}", file.getName());
             Optional<Image> image = analyseImage(new FileInputStream(file), file.getName());
             if(image.isPresent()) {
                 Image thisImage = image.get();

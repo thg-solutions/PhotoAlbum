@@ -14,27 +14,25 @@ spec:
       labels:
         app: photoalbum
     spec:
+      volumes:
+      - name: photoalbum-pv-storage
+        persistentVolumeClaim:
+          claimName: pictures-pv-claim
       containers:
       - name: photoalbum
-        image: tomgrund/photoalbum:0.0.5-SNAPSHOT
+        image: tomgrund/photoalbum:0.0.6-SNAPSHOT
         ports:
         - containerPort: 8080
         env:
-        # - name: USER_NAME
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: mongo-secret
-        #       key: mongo-user
-        # - name: USER_PWD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: mongo-secret
-        #       key: mongo-password
         - name: DB_HOST
           valueFrom:
             configMapKeyRef: 
               name: mongo-config
               key: mongo-url
+        volumeMounts:
+          - mountPath: "/mnt/data"
+            name: photoalbum-pv-storage
+
 ---
 apiVersion: v1
 kind: Service
