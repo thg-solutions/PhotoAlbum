@@ -13,33 +13,26 @@ plugins {
 group = 'de.thg'
 version = '0.0.6-SNAPSHOT'
 
-dependencyManagement {
-	imports {
-//		mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-		mavenBom 'org.testcontainers:testcontainers-bom:1.19.8'
-	}
-}
-
 dependencies {
 
 	api libs.spring.boot.starter.web
 	api libs.spring.boot.starter.data.mongodb
-	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0"
-	runtimeOnly 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+	implementation libs.springdoc.openapi.starter.webmvc.ui
+	runtimeOnly libs.hibernate.validator
 
-	implementation 'com.drewnoakes:metadata-extractor:2.19.0'
-	implementation 'org.apache.commons:commons-imaging:1.0.0-alpha5'
-	implementation 'org.apache.tika:tika-core:2.9.2'
-	api 'org.owasp:dependency-check-gradle:9.1.0'
+	implementation libs.metadata.extractor
+	implementation libs.commons.imaging
+	implementation libs.tika.core
+	api libs.dependency.check.gradle
 
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+	testImplementation(libs.spring.boot.starter.test) {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testImplementation 'org.assertj:assertj-core:3.25.3'
-	testImplementation "org.testcontainers:testcontainers"
-	testImplementation "org.testcontainers:junit-jupiter"
-	testImplementation 'org.testcontainers:mongodb'
-	testImplementation 'io.rest-assured:rest-assured:5.4.0'
+	testImplementation libs.assertj.core
+	testImplementation libs.testcontainers
+	testImplementation libs.testcontainers.junit.jupiter
+	testImplementation libs.testcontainers.mongodb
+	testImplementation libs.rest.assured
 }
 
 java {

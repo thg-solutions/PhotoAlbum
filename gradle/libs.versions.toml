@@ -1,11 +1,32 @@
 [versions]
 springframework-boot = '3.2.5'
+springdoc-openapi = '2.5.0'
+hibernate-validator = '8.0.1.Final'
+metadata-extractor = '2.19.0'
+commons-imaging = '1.0.0-alpha5'
+tika-core = '2.9.2'
+dependency-check = '9.1.0'
+testcontainers = '1.19.8'
+assertj-core = '3.25.3'
+rest-assured = '5.4.0'
 groovy = "3.0.5"
 checkstyle = "8.37"
 
 [libraries]
 spring-boot-starter-web = {module = 'org.springframework.boot:spring-boot-starter-web', version.ref = 'springframework-boot'}
 spring-boot-starter-data-mongodb = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb', version.ref = 'springframework-boot'}
+springdoc-openapi-starter-webmvc-ui = {module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc-openapi'}
+hibernate-validator = {module = 'org.hibernate.validator:hibernate-validator', version.ref = 'hibernate-validator'}
+metadata-extractor = {module = 'com.drewnoakes:metadata-extractor', version.ref = 'metadata-extractor'}
+commons-imaging = {module = 'org.apache.commons:commons-imaging', version.ref = 'commons-imaging'}
+tika-core = {module = 'org.apache.tika:tika-core', version.ref = 'tika-core'}
+dependency-check-gradle = {module = 'org.owasp:dependency-check-gradle', version.ref = 'dependency-check'}
+spring-boot-starter-test = {module = 'org.springframework.boot:spring-boot-starter-test', version.ref = 'springframework-boot'}
+testcontainers = {module = 'org.testcontainers:testcontainers', version.ref = 'testcontainers'}
+testcontainers-junit-jupiter = {module ='org.testcontainers:junit-jupiter', version.ref = 'testcontainers'}
+testcontainers-mongodb = {module = 'org.testcontainers:mongodb', version.ref = 'testcontainers'}
+assertj-core = {module = 'org.assertj:assertj-core',  version.ref = 'assertj-core'}
+rest-assured = {module = 'io.rest-assured:rest-assured', version.ref = 'rest-assured'}
 groovy-core = { module = "org.codehaus.groovy:groovy", version.ref = "groovy" }
 groovy-json = { module = "org.codehaus.groovy:groovy-json", version.ref = "groovy" }
 groovy-nio = { module = "org.codehaus.groovy:groovy-nio", version.ref = "groovy" }
