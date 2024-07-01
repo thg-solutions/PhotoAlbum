@@ -24,7 +24,7 @@ dependencies {
 
 	api 'org.springframework.boot:spring-boot-starter-web'
 	api 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0"
+	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0"
 	runtimeOnly 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 
 	implementation 'com.drewnoakes:metadata-extractor:2.19.0'
