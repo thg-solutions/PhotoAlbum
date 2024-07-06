@@ -51,9 +51,7 @@ public class PhotoAlbumService {
     private static final Pattern pattern = Pattern.compile("\\d{8}_\\d{6}.jpg");
     private static final DecimalFormat df = new DecimalFormat("0000");
 
-
     private final ImageMetadataReader imageMetadataReader;
-
     private final ImageRepository imageRepository;
     private final LocalDateTimeConverter localDateTimeConverter;
 

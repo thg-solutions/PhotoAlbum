@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -66,8 +67,10 @@ public class PhotoAlbumController {
 
     @PostMapping(value = "analyse", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Image> analyseImage(@RequestParam("file") MultipartFile fileToAnalyse) throws IOException {
-        Optional<Image> result = service.analyseImage(fileToAnalyse.getInputStream(), fileToAnalyse.getOriginalFilename());
-        fileToAnalyse.getInputStream().close();
+        Optional<Image> result;
+        try(InputStream inputStream = fileToAnalyse.getInputStream()) {
+            result = service.analyseImage(fileToAnalyse.getInputStream(), fileToAnalyse.getOriginalFilename());
+        }
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
         } else {
