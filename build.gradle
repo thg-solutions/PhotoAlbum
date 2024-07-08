@@ -39,7 +39,7 @@ dependencies {
 	testImplementation "org.testcontainers:testcontainers"
 	testImplementation "org.testcontainers:junit-jupiter"
 	testImplementation 'org.testcontainers:mongodb'
-	testImplementation 'io.rest-assured:rest-assured:5.4.0'
+	testImplementation 'io.rest-assured:rest-assured:5.5.0'
 }
 
 java {
@@ -61,7 +61,7 @@ testing {
 				implementation 'org.testcontainers:testcontainers'
 				implementation 'org.testcontainers:junit-jupiter'
 				implementation 'org.testcontainers:mongodb'
-				implementation 'io.rest-assured:rest-assured:5.4.0'
+				implementation 'io.rest-assured:rest-assured:5.5.0'
 			}
 
 			targets {
