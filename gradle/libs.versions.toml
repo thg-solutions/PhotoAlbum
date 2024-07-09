@@ -1,14 +1,14 @@
 [versions]
-springframework-boot = '3.2.5'
-springdoc-openapi = '2.5.0'
+springframework-boot = '3.3.1'
+springdoc-openapi = '2.6.0'
 hibernate-validator = '8.0.1.Final'
 metadata-extractor = '2.19.0'
 commons-imaging = '1.0.0-alpha5'
 tika-core = '2.9.2'
-dependency-check = '9.1.0'
+dependency-check = '10.0.2'
 testcontainers = '1.19.8'
-assertj-core = '3.25.3'
-rest-assured = '5.4.0'
+assertj-core = '3.26.0'
+rest-assured = '5.5.0'
 groovy = "3.0.5"
 checkstyle = "8.37"
 

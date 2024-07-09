@@ -76,7 +76,7 @@ class PhotoAlbumControllerTest {
         when(photoAlbumService.analyseImage(any(), anyString())).thenReturn(Optional.of(createImage(LocalDateTime.of(2023,10,13,14,30))));
         Resource resource = new ClassPathResource("testdata/PHOTO0021.JPG");
         MockMultipartFile multipartFile = new MockMultipartFile("file", "PHOTO0021.JPG", "image/jpeg", resource.getInputStream());
-        mockMvc.perform(multipart("/photoalbum/analyse").file(multipartFile)).andDo(print()).andExpect(status().isOk());
+        mockMvc.perform(multipart("/photoalbum/analyze_image").file(multipartFile)).andDo(print()).andExpect(status().isOk());
         verify(photoAlbumService).analyseImage(any(), anyString());
     }
 
