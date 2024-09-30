@@ -15,6 +15,7 @@ checkstyle = "8.37"
 [libraries]
 spring-boot-starter-web = {module = 'org.springframework.boot:spring-boot-starter-web', version.ref = 'springframework-boot'}
 spring-boot-starter-data-mongodb = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb', version.ref = 'springframework-boot'}
+spring-boot-starter-actuator = {module = 'org.springframework.boot:spring-boot-starter-actuator', version.ref = 'springframework-boot'}
 springdoc-openapi-starter-webmvc-ui = {module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc-openapi'}
 hibernate-validator = {module = 'org.hibernate.validator:hibernate-validator', version.ref = 'hibernate-validator'}
 metadata-extractor = {module = 'com.drewnoakes:metadata-extractor', version.ref = 'metadata-extractor'}

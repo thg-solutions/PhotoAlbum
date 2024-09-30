@@ -15,15 +15,16 @@ version = '0.0.6-SNAPSHOT'
 
 dependencies {
 
-	api libs.spring.boot.starter.web
-	api libs.spring.boot.starter.data.mongodb
+	implementation libs.spring.boot.starter.web
+	implementation libs.spring.boot.starter.data.mongodb
+	implementation libs.spring.boot.starter.actuator
 	implementation libs.springdoc.openapi.starter.webmvc.ui
 	runtimeOnly libs.hibernate.validator
 
 	implementation libs.metadata.extractor
 	implementation libs.commons.imaging
 	implementation libs.tika.core
-	api libs.dependency.check.gradle
+	implementation libs.dependency.check.gradle
 
 	testImplementation(libs.spring.boot.starter.test) {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -37,7 +38,6 @@ dependencies {
 
 java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(17))
-	toolchain.vendor.set(JvmVendorSpec.ORACLE)
 }
 
 testing {
