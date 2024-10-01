@@ -15,16 +15,16 @@ version = '0.0.6-SNAPSHOT'
 
 dependencies {
 
-	implementation libs.spring.boot.starter.web
-	implementation libs.spring.boot.starter.data.mongodb
-	implementation libs.spring.boot.starter.actuator
+	api libs.spring.boot.starter.web
+	api libs.spring.boot.starter.data.mongodb
+	api libs.spring.boot.starter.actuator
 	implementation libs.springdoc.openapi.starter.webmvc.ui
 	runtimeOnly libs.hibernate.validator
 
 	implementation libs.metadata.extractor
 	implementation libs.commons.imaging
 	implementation libs.tika.core
-	implementation libs.dependency.check.gradle
+	api libs.dependency.check.gradle
 
 	testImplementation(libs.spring.boot.starter.test) {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
