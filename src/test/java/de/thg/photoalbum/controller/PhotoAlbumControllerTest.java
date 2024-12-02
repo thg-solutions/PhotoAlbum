@@ -5,10 +5,10 @@ import de.thg.photoalbum.repositories.ImageRepository;
 import de.thg.photoalbum.services.PhotoAlbumService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.inject.Inject;
@@ -33,10 +33,10 @@ class PhotoAlbumControllerTest {
     @Inject
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private PhotoAlbumService photoAlbumService;
 
-    @MockBean
+    @MockitoBean
     private ImageRepository imageRepository;
 
     @Test
