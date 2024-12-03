@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.List;
 
 @Component("metadata-extractor")
 public class MetadataExtractorReader implements ImageMetadataReader {
@@ -37,7 +37,7 @@ public class MetadataExtractorReader implements ImageMetadataReader {
         Image image = new Image();
         image.setFilename(originalName);
         try (inputStream) {
-            Metadata metadata = JpegMetadataReader.readMetadata(inputStream, Arrays.asList(new ExifReader()));
+            Metadata metadata = JpegMetadataReader.readMetadata(inputStream, List.of(new ExifReader()));
             if(metadata.getDirectoryCount() == 0) {
                 return null;
             }
