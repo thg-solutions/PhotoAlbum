@@ -6,7 +6,7 @@ import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.ImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
 import org.apache.commons.imaging.formats.tiff.TiffImageMetadata;
-import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
+import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -35,7 +35,7 @@ public class ApacheImageReader implements ImageMetadataReader {
             ImageMetadata metadata = Imaging.getMetadata(fileInputStream, originalName);
 
             if (metadata instanceof JpegImageMetadata jpegMetadata) {
-                image.setCreationDate(localDateTimeConverter.toLocalDateTime(jpegMetadata.findExifValueWithExactMatch(TiffTagConstants.TIFF_TAG_DATE_TIME)
+                image.setCreationDate(localDateTimeConverter.toLocalDateTime(jpegMetadata.findExifValueWithExactMatch(ExifTagConstants.EXIF_TAG_DATE_TIME_ORIGINAL)
                             .getValue().toString()));
                 if (null != jpegMetadata.getExif() && null != jpegMetadata.getExif().getGpsInfo()) {
                     TiffImageMetadata.GpsInfo gpsInfo = jpegMetadata.getExif().getGpsInfo();

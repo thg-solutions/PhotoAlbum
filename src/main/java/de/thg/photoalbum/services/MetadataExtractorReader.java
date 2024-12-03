@@ -5,8 +5,8 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
-import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifReader;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
 import de.thg.photoalbum.model.Image;
 import de.thg.photoalbum.util.LocalDateTimeConverter;
@@ -41,8 +41,8 @@ public class MetadataExtractorReader implements ImageMetadataReader {
             if(metadata.getDirectoryCount() == 0) {
                 return null;
             }
-            Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-            image.setCreationDate(localDateTimeConverter.toLocalDateTime(directory.getDescription(ExifIFD0Directory.TAG_DATETIME)));
+            Directory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+            image.setCreationDate(localDateTimeConverter.toLocalDateTime(directory.getString(ExifSubIFDDirectory.TAG_DATETIME_DIGITIZED)));
             GpsDirectory gpsDirectory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
             if (gpsDirectory != null) {
                 GeoLocation geoLocation = gpsDirectory.getGeoLocation();
