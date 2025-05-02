@@ -1,5 +1,5 @@
 [versions]
-springframework-boot = '3.4.4'
+springframework-boot = '3.4.5'
 springdoc-openapi = '2.8.6'
 hibernate-validator = '8.0.2.Final'
 metadata-extractor = '2.19.0'
