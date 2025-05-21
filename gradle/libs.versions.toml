@@ -1,7 +1,7 @@
 [versions]
 springframework-boot = '3.4.5'
 springdoc-openapi = '2.8.8'
-hibernate-validator = '8.0.2.Final'
+hibernate-validator = '9.0.0.Final'
 metadata-extractor = '2.19.0'
 commons-imaging = '1.0.0-alpha6'
 tika-core = '3.1.0'
