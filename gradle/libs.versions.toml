@@ -9,7 +9,7 @@ dependency-check = '10.0.3'
 testcontainers = '1.21.0'
 assertj-core = '3.27.3'
 rest-assured = '5.5.5'
-groovy = "3.0.24"
+groovy = "3.0.25"
 checkstyle = "8.37"
 
 [libraries]
