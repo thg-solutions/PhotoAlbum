@@ -8,13 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.inject.Inject;
@@ -30,11 +24,15 @@ public class PhotoAlbumController {
 
     private static final Logger LOGGER = LogManager.getLogger(PhotoAlbumController.class);
 
-    @Inject
     private PhotoAlbumService service;
 
-    @Inject
     private ImageRepository imageRepository;
+
+    @Inject
+    public PhotoAlbumController(PhotoAlbumService service, ImageRepository imageRepository) {
+        this.service = service;
+        this.imageRepository = imageRepository;
+    }
 
     @GetMapping("/photos")
     public List<Image> getAllImages() {
@@ -51,11 +49,7 @@ public class PhotoAlbumController {
     @GetMapping("/photos/search/creationdate")
     public ResponseEntity<Image> getImageByCreationDate(@RequestParam("creationDate") String creationDate) {
         Optional<Image> result = imageRepository.findById(creationDate);
-        if(result.isPresent()) {
-            return ResponseEntity.ok(result.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -71,11 +65,7 @@ public class PhotoAlbumController {
         try(InputStream inputStream = fileToAnalyse.getInputStream()) {
             result = service.analyseImage(fileToAnalyse.getInputStream(), fileToAnalyse.getOriginalFilename());
         }
-        if (result.isPresent()) {
-            return ResponseEntity.ok(result.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("renameImages")

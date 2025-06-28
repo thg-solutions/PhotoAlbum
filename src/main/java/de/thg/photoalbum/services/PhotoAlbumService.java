@@ -23,14 +23,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -66,8 +59,8 @@ public class PhotoAlbumService {
 
     public List<Image> createOrUpdatePhotoAlbum(AlbumParams albumParams) {
 
-        List<String> sources = albumParams.getSources();
-        String target = albumParams.getTarget();
+        List<String> sources = albumParams.sources();
+        String target = albumParams.target();
 
         if (target == null) {
             LOGGER.info("Target directory not set, skipping");
@@ -80,7 +73,7 @@ public class PhotoAlbumService {
         File targetDir = new File(target);
         if(!targetDir.exists()) {
             targetDir.mkdirs();
-            LOGGER.debug("created directory " + targetDir.getAbsolutePath());
+            LOGGER.debug("created directory {}", targetDir.getAbsolutePath());
         }
 
         List<File> fileList = createFilteredFileList(albumParams);
@@ -89,23 +82,23 @@ public class PhotoAlbumService {
             Map<Image, File> fileMap = createFileMap(fileList);
             Map<File, Image> targetFileMap = createTargetFiles(fileMap);
 
-            if (!albumParams.isDebug()) {
+            if (!albumParams.debug()) {
                 result = copyFiles(targetFileMap, targetDir);
             }
         } catch (IOException e) {
             LOGGER.error(e);
         }
 
-        String msg = albumParams.isDebug() ? "simulated handling of " : "copied or updated ";
-        LOGGER.info(msg + result.size() + " pictures");
+        String msg = albumParams.debug() ? "simulated handling of " : "copied or updated ";
+        LOGGER.info("{}{} pictures", msg, result.size());
         LOGGER.info("done");
         return result;
     }
 
     List<File> createFilteredFileList(AlbumParams params) {
-        List<File> fileList = new ArrayList<>(Arrays.asList(Objects.requireNonNull(new File(params.getTarget()).listFiles())));
-        if(params.getSources() != null) {
-            for (File directory : params.getSources().stream().map(File::new).toList()) {
+        List<File> fileList = new ArrayList<>(Arrays.asList(Objects.requireNonNull(new File(params.target()).listFiles())));
+        if(params.sources() != null) {
+            for (File directory : params.sources().stream().map(File::new).toList()) {
                 if (!directory.isDirectory()) {
                     continue;
                 }

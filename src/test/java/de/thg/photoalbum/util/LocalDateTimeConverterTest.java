@@ -18,12 +18,12 @@ class LocalDateTimeConverterTest {
     void testToLocalDateTime() {
         String dateString = "2023:10:12 11:15:00";
         LocalDateTime localDateTime = undertest.toLocalDateTime(dateString);
-        assertThat(localDateTime).isEqualTo(LocalDateTime.of(2023, 10, 12, 11, 15, 00));
+        assertThat(localDateTime).isEqualTo(LocalDateTime.of(2023, 10, 12, 11, 15, 0));
     }
 
     @Test
     void testLdtToFilename() {
-        LocalDateTime localDateTime = LocalDateTime.of(2023, 10, 12, 11, 02, 00);
+        LocalDateTime localDateTime = LocalDateTime.of(2023, 10, 12, 11, 2, 0);
         String filename = undertest.toFilename(localDateTime);
         assertThat(filename).isEqualTo("20231012_110200.jpg");
     }
