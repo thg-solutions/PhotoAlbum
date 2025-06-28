@@ -20,7 +20,7 @@ public class ApacheImageReader implements ImageMetadataReader {
 
     private static final Logger LOGGER = LogManager.getLogger(ApacheImageReader.class);
 
-    private LocalDateTimeConverter localDateTimeConverter;
+    private final LocalDateTimeConverter localDateTimeConverter;
 
     @Inject
     public ApacheImageReader(LocalDateTimeConverter localDateTimeConverter) {

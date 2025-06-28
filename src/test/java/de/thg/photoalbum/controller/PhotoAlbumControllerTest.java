@@ -87,8 +87,8 @@ class PhotoAlbumControllerTest {
     }
 
     private List<Image> createResultList() {
-        Image image1 = createImage(LocalDateTime.of(2020, 04, 28, 0, 0));
-        Image image2 = createImage(LocalDateTime.of(2020, 04, 27, 0, 0));
+        Image image1 = createImage(LocalDateTime.of(2020, 4, 28, 0, 0));
+        Image image2 = createImage(LocalDateTime.of(2020, 4, 27, 0, 0));
         return Arrays.asList(image1, image2);
     }
 }
