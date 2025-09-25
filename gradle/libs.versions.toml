@@ -37,4 +37,4 @@ commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version 
 groovy = ["groovy-core", "groovy-json", "groovy-nio"]
 
 [plugins]
-versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
+versions = { id = "com.github.ben-manes.versions", version = "0.53.0" }
