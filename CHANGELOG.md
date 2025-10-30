@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.2] - 2025-10-30
+
+### Changed
+
+- introduced "record" instead of value objects.
+- upgraded several libraries according to dependabot requests.
+
+
 ## [1.1.1] - 2023-11-15
 
 ### Changed
