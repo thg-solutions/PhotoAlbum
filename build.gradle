@@ -11,7 +11,7 @@ plugins {
 }
 
 group = 'de.thg'
-version = '0.0.6-SNAPSHOT'
+version = '0.0.7-SNAPSHOT'
 
 dependencies {
 
@@ -59,7 +59,7 @@ testing {
 			}
 
 			targets {
-				all {
+				configureEach {
 					testTask.configure {
 						shouldRunAfter(test)
 					}

@@ -24,7 +24,7 @@ public class MetadataExtractorReader implements ImageMetadataReader {
 
     private static final Logger LOGGER = LogManager.getLogger(MetadataExtractorReader.class);
 
-    private LocalDateTimeConverter localDateTimeConverter;
+    private final LocalDateTimeConverter localDateTimeConverter;
 
     @Inject
     public MetadataExtractorReader(LocalDateTimeConverter localDateTimeConverter) {

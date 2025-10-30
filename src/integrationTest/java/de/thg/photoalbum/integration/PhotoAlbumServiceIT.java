@@ -6,11 +6,7 @@ import de.thg.photoalbum.repositories.ImageRepository;
 import de.thg.photoalbum.services.PhotoAlbumService;
 import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -65,21 +61,16 @@ public class PhotoAlbumServiceIT extends AbstractContainerBaseTest {
 
     @BeforeEach
     public void setUp() {
-        params = new AlbumParams();
-        params.getSources().add(sourcepath1.toString());
-        params.getSources().add(sourcepath2.toString());
-        params.setTarget(targetpath.toString());
-        params.setDebug(false);
+        params = new AlbumParams(targetpath.toString(), List.of(sourcepath1.toString(), sourcepath2.toString()), false);
     }
 
     @Test
     public void testCreateOrUpdatePhotoAlbum() {
         imageRepository.deleteAll();
         assertThat(imageRepository.findAll()).as("table image is not empty").isEmpty();
-        assertThat(params.isDebug()).isFalse();
-        assertThat(new File(params.getTarget())).isDirectory();
-//		assertThat(new File(params.getTarget()).listFiles()).isEmpty();
-        for (String source : params.getSources()) {
+        assertThat(params.debug()).isFalse();
+        assertThat(new File(params.target())).isDirectory();
+        for (String source : params.sources()) {
             assertThat(new File(source)).isDirectory();
             assertThat(new File(source).listFiles()).isNotEmpty();
         }
