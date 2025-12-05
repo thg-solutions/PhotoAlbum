@@ -1,5 +1,5 @@
 [versions]
-springframework-boot = '3.5.7'
+springframework-boot = '4.0.0'
 springdoc-openapi = '2.8.14'
 hibernate-validator = '9.1.0.Final'
 metadata-extractor = '2.19.0'
@@ -13,7 +13,7 @@ groovy = "3.0.25"
 checkstyle = "8.37"
 
 [libraries]
-spring-boot-starter-web = {module = 'org.springframework.boot:spring-boot-starter-web', version.ref = 'springframework-boot'}
+spring-boot-starter-webmvc = {module = 'org.springframework.boot:spring-boot-starter-webmvc', version.ref = 'springframework-boot'}
 spring-boot-starter-data-mongodb = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb', version.ref = 'springframework-boot'}
 spring-boot-starter-actuator = {module = 'org.springframework.boot:spring-boot-starter-actuator', version.ref = 'springframework-boot'}
 springdoc-openapi-starter-webmvc-ui = {module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc-openapi'}
@@ -22,8 +22,10 @@ metadata-extractor = {module = 'com.drewnoakes:metadata-extractor', version.ref 
 commons-imaging = {module = 'org.apache.commons:commons-imaging', version.ref = 'commons-imaging'}
 tika-core = {module = 'org.apache.tika:tika-core', version.ref = 'tika-core'}
 dependency-check-gradle = {module = 'org.owasp:dependency-check-gradle', version.ref = 'dependency-check'}
-spring-boot-starter-test = {module = 'org.springframework.boot:spring-boot-starter-test', version.ref = 'springframework-boot'}
-testcontainers = {module = 'org.testcontainers:testcontainers', version.ref = 'testcontainers'}
+spring-boot-starter-webmvc-test = {module = 'org.springframework.boot:spring-boot-starter-webmvc-test', version.ref = 'springframework-boot'}
+spring-boot-starter-data-mongodb-test = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb-test', version.ref = 'springframework-boot'}
+spring-boot-starter-actuator-test = {module = 'org.springframework.boot:spring-boot-starter-actuator-test', version.ref = 'springframework-boot'}
+spring-boot-testcontainers = {module = 'org.springframework.boot:spring-boot-testcontainers'}
 testcontainers-junit-jupiter = {module ='org.testcontainers:junit-jupiter', version.ref = 'testcontainers'}
 testcontainers-mongodb = {module = 'org.testcontainers:mongodb', version.ref = 'testcontainers'}
 assertj-core = {module = 'org.assertj:assertj-core',  version.ref = 'assertj-core'}
