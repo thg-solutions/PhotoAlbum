@@ -6,12 +6,12 @@ import de.thg.photoalbum.repositories.ImageRepository;
 import de.thg.photoalbum.services.PhotoAlbumService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -24,11 +24,11 @@ public class PhotoAlbumController {
 
     private static final Logger LOGGER = LogManager.getLogger(PhotoAlbumController.class);
 
-    private PhotoAlbumService service;
+    private final PhotoAlbumService service;
 
-    private ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
 
-    @Inject
+    @Autowired
     public PhotoAlbumController(PhotoAlbumService service, ImageRepository imageRepository) {
         this.service = service;
         this.imageRepository = imageRepository;
@@ -63,7 +63,7 @@ public class PhotoAlbumController {
     public ResponseEntity<Image> analyseImage(@RequestParam("file") MultipartFile fileToAnalyse) throws IOException {
         Optional<Image> result;
         try(InputStream inputStream = fileToAnalyse.getInputStream()) {
-            result = service.analyseImage(fileToAnalyse.getInputStream(), fileToAnalyse.getOriginalFilename());
+            result = service.analyseImage(inputStream, fileToAnalyse.getOriginalFilename());
         }
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
