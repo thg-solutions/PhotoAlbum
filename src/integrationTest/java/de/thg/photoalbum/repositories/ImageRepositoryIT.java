@@ -4,6 +4,7 @@ import de.thg.photoalbum.model.Image;
 import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -31,7 +32,7 @@ class ImageRepositoryIT extends AbstractContainerBaseTest {
     void testFindImage() {
         List<Image> image1 = imageRepository.findByFilename("Image_2");
         assertThat(image1).isNotEmpty();
-        assertThat(image1.get(0).getCreationDate()).isEqualTo(LocalDateTime.of(2023, 10, 13, 14, 31));
+        assertThat(image1.getFirst().getCreationDate()).isEqualTo(LocalDateTime.of(2023, 10, 13, 14, 31));
     }
 
     @Test

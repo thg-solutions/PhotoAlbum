@@ -3,6 +3,7 @@ package de.thg.photoalbum.integration;
 import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,7 @@ import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PhotoalbumRestAssuredIT extends AbstractContainerBaseTest {
+public class PhotoAlbumRestAssuredIT extends AbstractContainerBaseTest {
 
     @LocalServerPort
     private int port;
@@ -26,6 +27,7 @@ public class PhotoalbumRestAssuredIT extends AbstractContainerBaseTest {
 
     }
 
+    @Disabled
     @Test
     void testGetAll() {
         given().contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)

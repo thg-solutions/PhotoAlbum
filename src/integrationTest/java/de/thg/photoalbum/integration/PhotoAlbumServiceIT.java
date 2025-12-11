@@ -7,6 +7,7 @@ import de.thg.photoalbum.services.PhotoAlbumService;
 import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
