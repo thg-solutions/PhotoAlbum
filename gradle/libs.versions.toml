@@ -1,6 +1,6 @@
 [versions]
 springframework-boot = '4.0.0'
-springdoc-openapi = '2.8.14'
+springdoc-openapi = '3.0.0'
 hibernate-validator = '9.1.0.Final'
 metadata-extractor = '2.19.0'
 commons-imaging = '1.0.0-alpha6'
