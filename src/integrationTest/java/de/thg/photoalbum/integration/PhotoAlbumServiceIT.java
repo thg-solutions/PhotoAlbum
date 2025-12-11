@@ -10,7 +10,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,10 +28,10 @@ public class PhotoAlbumServiceIT extends AbstractContainerBaseTest {
 
     private AlbumParams params;
 
-    @Inject
+    @Autowired
     private PhotoAlbumService underTest;
 
-    @Inject
+    @Autowired
     private ImageRepository imageRepository;
 
     @Value("${photoalbum.prefix:jpg}")

@@ -5,12 +5,12 @@ import de.thg.photoalbum.util.LocalDateTimeConverter;
 import org.apache.tika.Tika;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,11 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 class ImageMetadataReaderTest {
 
-    @Inject
+    @Autowired
     @Qualifier("apache-imaging")
     ImageMetadataReader apacheImageReader;
 
-    @Inject
+    @Autowired
     @Qualifier("metadata-extractor")
     ImageMetadataReader metadataExtractorReader;
 

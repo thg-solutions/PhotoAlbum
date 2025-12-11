@@ -9,9 +9,9 @@ import org.apache.commons.imaging.formats.tiff.TiffImageMetadata;
 import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,7 +22,7 @@ public class ApacheImageReader implements ImageMetadataReader {
 
     private final LocalDateTimeConverter localDateTimeConverter;
 
-    @Inject
+    @Autowired
     public ApacheImageReader(LocalDateTimeConverter localDateTimeConverter) {
         this.localDateTimeConverter = localDateTimeConverter;
     }

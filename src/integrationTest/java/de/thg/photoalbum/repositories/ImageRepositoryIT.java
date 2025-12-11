@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 class ImageRepositoryIT extends AbstractContainerBaseTest {
 
-    @Inject
+    @Autowired
     ImageRepository imageRepository;
 
     @BeforeEach

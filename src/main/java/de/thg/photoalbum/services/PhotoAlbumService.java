@@ -8,11 +8,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tika.Tika;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class PhotoAlbumService {
 
     private final Tika tika;
 
-    @Inject
+    @Autowired
     public PhotoAlbumService(@Qualifier("metadata-extractor") ImageMetadataReader imageMetadataReader, ImageRepository imageRepository, LocalDateTimeConverter localDateTimeConverter) {
         this.imageMetadataReader = imageMetadataReader;
         this.imageRepository = imageRepository;
