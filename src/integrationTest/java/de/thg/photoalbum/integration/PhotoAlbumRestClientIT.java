@@ -1,5 +1,6 @@
 package de.thg.photoalbum.integration;
 
+import de.thg.photoalbum.testcontainers.AbstractContainerBaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
@@ -10,7 +11,7 @@ import org.springframework.test.web.servlet.client.RestTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
-public class PhotoAlbumRestClientIT {
+public class PhotoAlbumRestClientIT extends AbstractContainerBaseTest {
 
     @LocalServerPort
     private int port;
