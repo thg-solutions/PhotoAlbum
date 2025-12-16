@@ -16,7 +16,7 @@ services:
     environment:
       DB_HOST: mongodb
     ports:
-      - 8090:8080
+      - "8090:8080"
 #    depends_on:
 #      postgres:
 #        condition: service_healthy

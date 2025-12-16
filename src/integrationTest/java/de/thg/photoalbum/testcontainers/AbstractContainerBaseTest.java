@@ -28,6 +28,6 @@ public abstract class AbstractContainerBaseTest {
     // aber die empfohlene Annotation @BeforeAll wird auch einmal pro Test-Klasse aufgerufen, also
     // öfter als nötig. System.setProperty(...) im static-Block wäre eine Alternative.
     static void setProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", mongodb::getReplicaSetUrl);
+        registry.add("spring.mongodb.uri", mongodb::getReplicaSetUrl);
     }
 }
