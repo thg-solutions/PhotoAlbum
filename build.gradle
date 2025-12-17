@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '4.0.0'
+	alias(libs.plugins.spring.boot)
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'java-library'
 	id "io.freefair.lombok" version "9.1.0"
@@ -15,29 +15,19 @@ version = '0.0.7-SNAPSHOT'
 
 dependencies {
 
-	api 'org.springframework.boot:spring-boot-starter-webmvc'
-	api 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	api libs.spring.boot.starter.webmvc
+	api libs.spring.boot.starter.mongodb
+	implementation libs.spring.boot.starter.actuator
+	implementation libs.spring.boot.starter.validation
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 	implementation libs.springdoc.openapi.starter.webmvc.ui
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
 	implementation libs.metadata.extractor
 	implementation libs.commons.imaging
 	implementation libs.tika.core
 	api libs.dependency.check.gradle
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-mongodb-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
-	testImplementation libs.assertj.core
-	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-//	testImplementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-//	testImplementation 'org.testcontainers:mongodb:1.21.3'
-	testImplementation libs.rest.assured
 }
+
 
 java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(25))
@@ -47,17 +37,28 @@ testing {
 	suites {
 
 		test {
+			dependencies {
+				implementation project()
+				implementation libs.spring.boot.starter.webmvc.test
+				implementation libs.spring.boot.starter.mongodb.test
+				implementation libs.spring.boot.starter.actuator.test
+				implementation libs.spring.boot.starter.validation.test
+				implementation libs.assertj.core
+				implementation libs.rest.assured
+				runtimeOnly 'org.junit.platform:junit-platform-launcher'
+			}
+
 			useJUnitJupiter()
 		}
 
 		integrationTest(JvmTestSuite) {
 			dependencies {
 				implementation project()
-				implementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-				implementation 'org.springframework.boot:spring-boot-testcontainers'
-				implementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.3'
-				implementation 'org.testcontainers:mongodb:1.21.4'
-				implementation 'io.rest-assured:rest-assured:6.0.0'
+				implementation libs.spring.boot.starter.webmvc.test
+				implementation libs.spring.boot.testcontainers
+				implementation libs.testcontainers.junit.jupiter
+				implementation libs.testcontainers.mongodb
+				implementation libs.rest.assured
 			}
 
 			targets {

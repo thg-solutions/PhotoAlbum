@@ -6,28 +6,30 @@ metadata-extractor = '2.19.0'
 commons-imaging = '1.0.0-alpha6'
 tika-core = '3.2.3'
 dependency-check = '10.0.3'
-testcontainers = '1.21.4'
+testcontainers-junit-jupiter = '2.0.3'
+testcontainers-mongodb = '1.21.4'
 assertj-core = '3.27.6'
 rest-assured = '6.0.0'
 groovy = "3.0.25"
 checkstyle = "8.37"
 
 [libraries]
-spring-boot-starter-webmvc = {module = 'org.springframework.boot:spring-boot-starter-webmvc', version.ref = 'springframework-boot'}
-spring-boot-starter-data-mongodb = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb', version.ref = 'springframework-boot'}
-spring-boot-starter-actuator = {module = 'org.springframework.boot:spring-boot-starter-actuator', version.ref = 'springframework-boot'}
+spring-boot-starter-webmvc = {module = 'org.springframework.boot:spring-boot-starter-webmvc'}
+spring-boot-starter-mongodb = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb'}
+spring-boot-starter-actuator = {module = 'org.springframework.boot:spring-boot-starter-actuator'}
+spring-boot-starter-validation = {module = 'org.springframework.boot:spring-boot-starter-validation'}
 springdoc-openapi-starter-webmvc-ui = {module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc-openapi'}
-hibernate-validator = {module = 'org.hibernate.validator:hibernate-validator', version.ref = 'hibernate-validator'}
 metadata-extractor = {module = 'com.drewnoakes:metadata-extractor', version.ref = 'metadata-extractor'}
 commons-imaging = {module = 'org.apache.commons:commons-imaging', version.ref = 'commons-imaging'}
 tika-core = {module = 'org.apache.tika:tika-core', version.ref = 'tika-core'}
 dependency-check-gradle = {module = 'org.owasp:dependency-check-gradle', version.ref = 'dependency-check'}
-spring-boot-starter-webmvc-test = {module = 'org.springframework.boot:spring-boot-starter-webmvc-test', version.ref = 'springframework-boot'}
-spring-boot-starter-data-mongodb-test = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb-test', version.ref = 'springframework-boot'}
-spring-boot-starter-actuator-test = {module = 'org.springframework.boot:spring-boot-starter-actuator-test', version.ref = 'springframework-boot'}
+spring-boot-starter-webmvc-test = {module = 'org.springframework.boot:spring-boot-starter-webmvc-test'}
+spring-boot-starter-mongodb-test = {module = 'org.springframework.boot:spring-boot-starter-data-mongodb-test'}
+spring-boot-starter-actuator-test = {module = 'org.springframework.boot:spring-boot-starter-actuator-test'}
+spring-boot-starter-validation-test = {module = 'org.springframework.boot:spring-boot-starter-validation-test'}
 spring-boot-testcontainers = {module = 'org.springframework.boot:spring-boot-testcontainers'}
-testcontainers-junit-jupiter = {module ='org.testcontainers:junit-jupiter', version.ref = 'testcontainers'}
-testcontainers-mongodb = {module = 'org.testcontainers:mongodb', version.ref = 'testcontainers'}
+testcontainers-junit-jupiter = {module ='org.testcontainers:testcontainers-junit-jupiter', version.ref = 'testcontainers-junit-jupiter'}
+testcontainers-mongodb = {module = 'org.testcontainers:mongodb', version.ref = 'testcontainers-mongodb'}
 assertj-core = {module = 'org.assertj:assertj-core',  version.ref = 'assertj-core'}
 rest-assured = {module = 'io.rest-assured:rest-assured', version.ref = 'rest-assured'}
 groovy-core = { module = "org.codehaus.groovy:groovy", version.ref = "groovy" }
@@ -39,4 +41,4 @@ commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version 
 groovy = ["groovy-core", "groovy-json", "groovy-nio"]
 
 [plugins]
-versions = { id = "com.github.ben-manes.versions", version = "0.53.0" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springframework-boot" }
